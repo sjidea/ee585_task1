@@ -272,9 +272,11 @@ class MyLocalPlanner(object):
             self._waypoints_queue.append(elem.pose)
         
         try:
-            _, _, _, _, csp = FrenetPath.generate_target_course(self._waypoints_queue)
+            _, _, _, _, self.csp = FrenetPath.generate_target_course(self._waypoints_queue)
         except:
             print('cannot make csp')
+        # rospy.loginfo("csp made")
+        print(f'csp made', csp)
         try:
             self.c_speed = 10.0 / 3.6
             self.c_d = 2.0
@@ -338,12 +340,12 @@ class MyLocalPlanner(object):
             # self.c_speed = path.s_d[1]
         except:
             print('cannot get frenet or update')
-        try:
-            self.target_route_point = path
-        except:
-            print('cannot set path')
+        # try:
+        #     self._waypoint_buffer = path
+        # except:
+        #     print('cannot set path')
         # target waypoint
-        # self.target_route_point = self._waypoint_buffer[0]
+        self.target_route_point = self._waypoint_buffer[0]
 
         target_point = PointStamped()
         target_point.header.frame_id = "map"
