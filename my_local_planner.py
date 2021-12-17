@@ -110,7 +110,7 @@ class MyLocalPlanner(object):
             self.c_d_dd = 0.0
             self.s0 = 0.0
         except:
-            # print('cannot make initial state')
+            print('cannot make initial state')
 
     def get_obstacles(self, location, range):
         """
