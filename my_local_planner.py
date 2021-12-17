@@ -25,6 +25,9 @@ from misc import distance_vehicle  # pylint: disable=relative-import
 import carla
 import carla_ros_bridge.transforms as trans
 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) +
+                "/")
+
 try:
     from frenet_optimal_planning import FrenetPath
 except ImportError:
