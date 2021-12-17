@@ -276,7 +276,8 @@ class MyLocalPlanner(object):
         except:
             print('cannot make csp')
         # rospy.loginfo("csp made")
-        print(f'csp made', csp)
+        print("csp made : {} ".format(self.csp))
+
         try:
             self.c_speed = 10.0 / 3.6
             self.c_d = 2.0
