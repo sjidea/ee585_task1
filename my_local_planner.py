@@ -25,6 +25,8 @@ from misc import distance_vehicle  # pylint: disable=relative-import
 import carla
 import carla_ros_bridge.transforms as trans
 
+import sys
+import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) +
                 "/")
 
