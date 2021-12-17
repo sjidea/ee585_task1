@@ -284,7 +284,7 @@ class MyLocalPlanner(object):
         except:
             print('cannot assign initial state values')
 
-    def run_step(self, target_speed, current_speed, current_pose): # 여기다 self._current_speed  하면 안돼?
+    def run_step(self, target_speed, current_speed, current_pose): # 
         """
         Execute one step of local planning which involves running the longitudinal
         and lateral PID controllers to follow the waypoints trajectory.
