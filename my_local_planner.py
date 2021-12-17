@@ -104,13 +104,13 @@ class MyLocalPlanner(object):
             print('cannot make csp as list')
 
         try:
-            self.c_speed = 0.0
+            # self.c_speed = 0.0
             self.c_d = 0.0
             self.c_d_d = 0.0
             self.c_d_dd = 0.0
             self.s0 = 0.0
         except:
-            print('cannot make initial state')
+            # print('cannot make initial state')
 
     def get_obstacles(self, location, range):
         """
@@ -284,7 +284,7 @@ class MyLocalPlanner(object):
         except:
             print('cannot assign initial state values')
 
-    def run_step(self, target_speed, current_speed, current_pose):
+    def run_step(self, target_speed, current_speed, current_pose): # 여기다 self._current_speed  하면 안돼?
         """
         Execute one step of local planning which involves running the longitudinal
         and lateral PID controllers to follow the waypoints trajectory.
@@ -316,9 +316,9 @@ class MyLocalPlanner(object):
         self.get_obstacles(current_pose.position, 70.0)
 
         # # Example 1: get two waypoints on the left and right lane marking w.r.t current pose
-        # left, right = self.get_coordinate_lanemarking(current_pose.position)
-        # print("\x1b[6;30;33m------Example 1------\x1b[0m")
-        # print("Left: {}, {}; right: {}, {}".format(left.x, left.y, right.x, right.y))
+        left, right = self.get_coordinate_lanemarking(current_pose.position)
+        print("\x1b[6;30;33m------Example 1------\x1b[0m")
+        print("Left: {}, {}; right: {}, {}".format(left.x, left.y, right.x, right.y))
         
         # # Example 2: check obstacle collision
         # print("\x1b[6;30;33m------Example 2------\x1b[0m")
@@ -335,12 +335,15 @@ class MyLocalPlanner(object):
             self.c_d = path.d[1]
             self.c_d_d = path.d_d[1]
             self.c_d_dd = path.d_dd[1]
-            self.c_speed = path.s_d[1]
+            # self.c_speed = path.s_d[1]
         except:
             print('cannot get frenet or update')
-
+        try:
+            self.target_route_point = path
+        except:
+            print('cannot set path')
         # target waypoint
-        self.target_route_point = self._waypoint_buffer[0]
+        # self.target_route_point = self._waypoint_buffer[0]
 
         target_point = PointStamped()
         target_point.header.frame_id = "map"

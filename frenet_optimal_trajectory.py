@@ -38,7 +38,7 @@ SIM_LOOP = 500
 MAX_SPEED = 50.0 / 3.6  # maximum speed [m/s]
 MAX_ACCEL = 2.0  # maximum acceleration [m/ss]
 MAX_CURVATURE = 1.0  # maximum curvature [1/m]
-MAX_ROAD_WIDTH = 7.0  # maximum road width [m]
+MAX_ROAD_WIDTH = 3.5  # maximum road width [m]
 D_ROAD_W = 1.0  # road width sampling length [m]
 DT = 0.2  # time tick [s]
 MAX_T = 5.0  # max prediction time [m]
@@ -324,5 +324,5 @@ def main():
         plt.show()
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
