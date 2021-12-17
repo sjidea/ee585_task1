@@ -31,7 +31,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)) +
                 "/")
 
 try:
-    from frenet_optimal_planning import FrenetPath
+    from frenet_optimal_trajectory import FrenetPath
 except ImportError:
     raise
 
