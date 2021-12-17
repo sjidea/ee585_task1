@@ -12,7 +12,7 @@ Ref:
 
 import math
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 
 # parameter
@@ -141,23 +141,23 @@ def quintic_polynomials_planner(sx, sy, syaw, sv, sa, gx, gy, gyaw, gv, ga, max_
             print("find path!!")
             break
 
-    if show_animation:  # pragma: no cover
-        for i, _ in enumerate(time):
-            plt.cla()
-            # for stopping simulation with the esc key.
-            plt.gcf().canvas.mpl_connect('key_release_event',
-                                         lambda event: [exit(0) if event.key == 'escape' else None])
-            plt.grid(True)
-            plt.axis("equal")
-            plot_arrow(sx, sy, syaw)
-            plot_arrow(gx, gy, gyaw)
-            plot_arrow(rx[i], ry[i], ryaw[i])
-            plt.title("Time[s]:" + str(time[i])[0:4] +
-                      " v[m/s]:" + str(rv[i])[0:4] +
-                      " a[m/ss]:" + str(ra[i])[0:4] +
-                      " jerk[m/sss]:" + str(rj[i])[0:4],
-                      )
-            plt.pause(0.001)
+    # if show_animation:  # pragma: no cover
+    #     for i, _ in enumerate(time):
+    #         plt.cla()
+    #         # for stopping simulation with the esc key.
+    #         plt.gcf().canvas.mpl_connect('key_release_event',
+    #                                      lambda event: [exit(0) if event.key == 'escape' else None])
+    #         plt.grid(True)
+    #         plt.axis("equal")
+    #         plot_arrow(sx, sy, syaw)
+    #         plot_arrow(gx, gy, gyaw)
+    #         plot_arrow(rx[i], ry[i], ryaw[i])
+    #         plt.title("Time[s]:" + str(time[i])[0:4] +
+    #                   " v[m/s]:" + str(rv[i])[0:4] +
+    #                   " a[m/ss]:" + str(ra[i])[0:4] +
+    #                   " jerk[m/sss]:" + str(rj[i])[0:4],
+    #                   )
+    #         plt.pause(0.001)
 
     return time, rx, ry, ryaw, rv, ra, rj
 
@@ -170,10 +170,10 @@ def plot_arrow(x, y, yaw, length=1.0, width=0.5, fc="r", ec="k"):  # pragma: no 
     if not isinstance(x, float):
         for (ix, iy, iyaw) in zip(x, y, yaw):
             plot_arrow(ix, iy, iyaw)
-    else:
-        plt.arrow(x, y, length * math.cos(yaw), length * math.sin(yaw),
-                  fc=fc, ec=ec, head_width=width, head_length=width)
-        plt.plot(x, y)
+    # else:
+    #     plt.arrow(x, y, length * math.cos(yaw), length * math.sin(yaw),
+    #               fc=fc, ec=ec, head_width=width, head_length=width)
+    #     plt.plot(x, y)
 
 
 def main():
@@ -196,34 +196,34 @@ def main():
     time, x, y, yaw, v, a, j = quintic_polynomials_planner(
         sx, sy, syaw, sv, sa, gx, gy, gyaw, gv, ga, max_accel, max_jerk, dt)
 
-    if show_animation:  # pragma: no cover
-        plt.plot(x, y, "-r")
+    # if show_animation:  # pragma: no cover
+    #     plt.plot(x, y, "-r")
 
-        plt.subplots()
-        plt.plot(time, [np.rad2deg(i) for i in yaw], "-r")
-        plt.xlabel("Time[s]")
-        plt.ylabel("Yaw[deg]")
-        plt.grid(True)
+    #     plt.subplots()
+    #     plt.plot(time, [np.rad2deg(i) for i in yaw], "-r")
+    #     plt.xlabel("Time[s]")
+    #     plt.ylabel("Yaw[deg]")
+    #     plt.grid(True)
 
-        plt.subplots()
-        plt.plot(time, v, "-r")
-        plt.xlabel("Time[s]")
-        plt.ylabel("Speed[m/s]")
-        plt.grid(True)
+    #     plt.subplots()
+    #     plt.plot(time, v, "-r")
+    #     plt.xlabel("Time[s]")
+    #     plt.ylabel("Speed[m/s]")
+    #     plt.grid(True)
 
-        plt.subplots()
-        plt.plot(time, a, "-r")
-        plt.xlabel("Time[s]")
-        plt.ylabel("accel[m/ss]")
-        plt.grid(True)
+    #     plt.subplots()
+    #     plt.plot(time, a, "-r")
+    #     plt.xlabel("Time[s]")
+    #     plt.ylabel("accel[m/ss]")
+    #     plt.grid(True)
 
-        plt.subplots()
-        plt.plot(time, j, "-r")
-        plt.xlabel("Time[s]")
-        plt.ylabel("jerk[m/sss]")
-        plt.grid(True)
+    #     plt.subplots()
+    #     plt.plot(time, j, "-r")
+    #     plt.xlabel("Time[s]")
+    #     plt.ylabel("jerk[m/sss]")
+    #     plt.grid(True)
 
-        plt.show()
+    #     plt.show()
 
 
 if __name__ == '__main__':
