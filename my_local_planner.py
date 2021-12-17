@@ -25,6 +25,11 @@ from misc import distance_vehicle  # pylint: disable=relative-import
 import carla
 import carla_ros_bridge.transforms as trans
 
+try:
+    import frenet_optimal_planning
+except ImportError:
+    raise
+
 class Obstacle:
     def __init__(self):
         self.id = -1 # actor id
@@ -92,6 +97,20 @@ class MyLocalPlanner(object):
 
         # initializing controller
         self._init_controller(opt_dict)
+
+        try:
+            self.csp = []
+        except:
+            print('cannot make csp as list')
+
+        try:
+            self.c_speed = 0.0
+            self.c_d = 0.0
+            self.c_d_d = 0.0
+            self.c_d_dd = 0.0
+            self.s0 = 0.0
+        except:
+            print('cannot make initial state')
 
     def get_obstacles(self, location, range):
         """
@@ -251,6 +270,19 @@ class MyLocalPlanner(object):
         self._waypoints_queue.clear()
         for elem in current_plan:
             self._waypoints_queue.append(elem.pose)
+        
+        try:
+            _, _, _, _, csp = FrenetPath.generate_target_course(self._waypoints_queue)
+        except:
+            print('cannot make csp')
+        try:
+            self.c_speed = 10.0 / 3.6
+            self.c_d = 2.0
+            self.c_d_d = 0.0
+            self.c_d_dd = 0.0
+            self.s0 = 0.0
+        except:
+            print('cannot assign initial state values')
 
     def run_step(self, target_speed, current_speed, current_pose):
         """
@@ -296,7 +328,17 @@ class MyLocalPlanner(object):
         # point.z = 1.5
         # for ob in self._obstacles:
         #     print("id: {}, collision: {}".format(ob.id, self.check_obstacle(point, ob)))
-        
+        try:
+            path = FrenetPath.frenet_optimal_planning(self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
+                                            [[ob.bbox.location.x, ob.bbox.location.y] for ob in self._obstacles])
+            self.s0 = path.s[1]
+            self.c_d = path.d[1]
+            self.c_d_d = path.d_d[1]
+            self.c_d_dd = path.d_dd[1]
+            self.c_speed = path.s_d[1]
+        except:
+            print('cannot get frenet or update')
+
         # target waypoint
         self.target_route_point = self._waypoint_buffer[0]
 
