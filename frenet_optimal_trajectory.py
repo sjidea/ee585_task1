@@ -15,7 +15,7 @@ Ref:
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import copy
 import math
 import sys
@@ -301,27 +301,27 @@ def main():
             print("Goal")
             break
 
-        if show_animation:  # pragma: no cover
-            plt.cla()
-            # for stopping simulation with the esc key.
-            plt.gcf().canvas.mpl_connect(
-                'key_release_event',
-                lambda event: [exit(0) if event.key == 'escape' else None])
-            plt.plot(tx, ty)
-            plt.plot(ob[:, 0], ob[:, 1], "xk")
-            plt.plot(path.x[1:], path.y[1:], "-or")
-            plt.plot(path.x[1], path.y[1], "vc")
-            plt.xlim(path.x[1] - area, path.x[1] + area)
-            plt.ylim(path.y[1] - area, path.y[1] + area)
-            plt.title("v[km/h]:" + str(c_speed * 3.6)[0:4])
-            plt.grid(True)
-            plt.pause(0.0001)
+    #     if show_animation:  # pragma: no cover
+    #         plt.cla()
+    #         # for stopping simulation with the esc key.
+    #         plt.gcf().canvas.mpl_connect(
+    #             'key_release_event',
+    #             lambda event: [exit(0) if event.key == 'escape' else None])
+    #         plt.plot(tx, ty)
+    #         plt.plot(ob[:, 0], ob[:, 1], "xk")
+    #         plt.plot(path.x[1:], path.y[1:], "-or")
+    #         plt.plot(path.x[1], path.y[1], "vc")
+    #         plt.xlim(path.x[1] - area, path.x[1] + area)
+    #         plt.ylim(path.y[1] - area, path.y[1] + area)
+    #         plt.title("v[km/h]:" + str(c_speed * 3.6)[0:4])
+    #         plt.grid(True)
+    #         plt.pause(0.0001)
 
-    print("Finish")
-    if show_animation:  # pragma: no cover
-        plt.grid(True)
-        plt.pause(0.0001)
-        plt.show()
+    # print("Finish")
+    # if show_animation:  # pragma: no cover
+    #     plt.grid(True)
+    #     plt.pause(0.0001)
+    #     plt.show()
 
 
 # if __name__ == '__main__':
