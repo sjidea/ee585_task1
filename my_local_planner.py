@@ -26,7 +26,7 @@ import carla
 import carla_ros_bridge.transforms as trans
 
 try:
-    import frenet_optimal_planning
+    from frenet_optimal_planning import FrenetPath
 except ImportError:
     raise
 
