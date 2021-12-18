@@ -380,20 +380,7 @@ class MyLocalPlanner(object):
                                             obs)
         except:
             print('cannot get frenet path')
-        print("path = {}".format(path))
-        try:
-            self.s0 = path.s[1]
-            self.c_d = path.d[1]
-            self.c_d_d = path.d_d[1]
-            self.c_d_dd = path.d_dd[1]
-            self.c_speed = path.s_d[1]
-        except:
-            print('cannot update s0, c_d, c_d_d ...')
-        # try:
-        #     self._waypoint_buffer = path
-        # except:
-        #     print('cannot set path')
-
+        # print("path = {}".format(path))
 
         # target waypoint
         ''' modigy target waypoint '''
@@ -416,8 +403,11 @@ class MyLocalPlanner(object):
         control = self._vehicle_controller.run_step(
             target_speed, current_speed, current_pose, self.target_route_point)
 
+
+
         # purge the queue of obsolete waypoints
         max_index = -1
+        update_path = -1
 
         sampling_radius = target_speed * 1 / 3.6  # 1 seconds horizon
         min_distance = sampling_radius * self.MIN_DISTANCE_PERCENTAGE
@@ -426,8 +416,29 @@ class MyLocalPlanner(object):
             if distance_vehicle(
                     route_point, current_pose.position) < min_distance:
                 max_index = i
+        try: # get update signal
+            for j, route_point in enumerate(path):
+                dist_x = route_point.x - current_pose.position.x 
+                dist_y = route_point.y - current_pose.position.y
+                # if math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance
+                #     # do not update path
+                #     update_path = j
+                update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
+        except:
+            print("cannot make update sig")
+
         if max_index >= 0:
             for i in range(max_index + 1):
                 self._waypoint_buffer.popleft()
+        if update_path:
+            try:
+                self.s0 = path.s[1]
+                self.c_d = path.d[1]
+                self.c_d_d = path.d_d[1]
+                self.c_d_dd = path.d_dd[1]
+                self.c_speed = path.s_d[1]
+            except:
+                print('cannot update s0, c_d, c_d_d ...')
+
 
         return control, False
