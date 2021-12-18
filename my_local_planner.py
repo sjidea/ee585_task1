@@ -349,7 +349,7 @@ class MyLocalPlanner(object):
             control = CarlaEgoVehicleControl()
             control.steer = 0.0
             control.throttle = 0.0
-            control.brake = 1.0
+            control.brake = 0.5
             control.hand_brake = False
             control.manual_gear_shift = False
 
