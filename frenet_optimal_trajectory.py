@@ -38,6 +38,10 @@ SIM_LOOP = 500
 MAX_SPEED = 50.0 / 3.6  # maximum speed [m/s]
 MAX_ACCEL = 2.0  # maximum acceleration [m/ss]
 MAX_CURVATURE = 1.0  # maximum curvature [1/m]
+# MAX_SPEED = 50.0 / 3.6  # maximum speed [m/s]
+# MAX_ACCEL = 4.0  # maximum acceleration [m/ss]
+# MAX_CURVATURE = 5.0  # maximum curvature [1/m]
+
 MAX_ROAD_WIDTH = 3.5  # maximum road width [m]
 D_ROAD_W = 1.0  # road width sampling length [m]
 DT = 0.2  # time tick [s]
@@ -50,7 +54,7 @@ ROBOT_RADIUS = 2.0  # robot radius [m]
 
 # cost weights
 K_J = 0.1
-K_T = 0.1
+K_T = 0.1 
 K_D = 1.0
 K_LAT = 1.0
 K_LON = 1.0
@@ -216,14 +220,18 @@ def check_paths(fplist, ob):
     ok_ind = []
     for i, _ in enumerate(fplist):
         if any([v > MAX_SPEED for v in fplist[i].s_d]):  # Max speed check
+            print(" exceed max speed {}".format(i))
             continue
         elif any([abs(a) > MAX_ACCEL for a in
                   fplist[i].s_dd]):  # Max accel check
+            print(" exceed max accel {}".format(i))
             continue
         elif any([abs(c) > MAX_CURVATURE for c in
                   fplist[i].c]):  # Max curvature check
+            print(" exceed max curva {}".format(i))
             continue
         elif not check_collision(fplist[i], ob):
+            print(" exceed collision {}".format(i))
             continue
 
         ok_ind.append(i)
