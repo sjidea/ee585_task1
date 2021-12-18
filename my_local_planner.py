@@ -378,7 +378,7 @@ class MyLocalPlanner(object):
             # path = FrenetPath.frenet_optimal_planning(10.0/3.6, 0.0, 0.0, 2.0, 0.0, 0.0, \
                                             # [[0.0,0.0]])
         except:
-            print('cannot get frenet')
+            print('cannot get frenet path')
         try:
             self.s0 = path.s[1]
             self.c_d = path.d[1]
