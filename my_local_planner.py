@@ -279,8 +279,7 @@ class MyLocalPlanner(object):
         #----- to eliminate repeted points
             prev_ = self._waypoints_queue[-1].position
             curr_ = elem.pose.position
-            if (prev_.x == curr_.x) and (prev_.y == curr_.y)
-            else: 
+            if not ((prev_.x == curr_.x) and (prev_.y == curr_.y)):
                 self.waypoint_list.append([curr_.x, curr_.y])
             # print("elem = {}".format(elem))
             # print('elem.pose = {}'.format(elem.pose))
