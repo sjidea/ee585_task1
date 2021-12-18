@@ -122,7 +122,7 @@ class MyLocalPlanner(object):
         """
         Get a list of obstacles that are located within a certain distance from the location.
         
-        :param      location: queried location
+        :param      location: queried location # current pose position
         :param      range: search distance from the queried location
         :type       location: geometry_msgs/Point
         :type       range: float or double
@@ -150,8 +150,8 @@ class MyLocalPlanner(object):
                         ob.vy = actor.get_velocity().y
                         ob.vz = actor.get_velocity().z
                         ob.bbox = actor.bounding_box # in local frame
-                        # print("x: {}, y: {}, z:{}").format(x, y, z)
-                        # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
+                        print("x: {}, y: {}, z:{}").format(x, y, z)
+                        print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
                         self._obstacles.append(ob)
 
     def check_obstacle(self, point, obstacle):
