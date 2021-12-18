@@ -351,7 +351,7 @@ class MyLocalPlanner(object):
             path = FrenetPath.frenet_optimal_planning(self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
             #                                 [[ob.bbox.location.x, ob.bbox.location.y] for ob in self._obstacles])
             # path = FrenetPath.frenet_optimal_planning(10.0/3.6, 0.0, 0.0, 2.0, 0.0, 0.0, \
-                                            obs)
+                                            [])
         except:
             print('cannot get frenet')
         try:
