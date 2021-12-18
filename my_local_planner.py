@@ -310,6 +310,8 @@ class MyLocalPlanner(object):
             _, _, _, _, self.csp = FrenetPath.generate_target_course(self.waypoint_list[0], self.waypoint_list[1])
         except:
             print('cannot make csp')
+        else:
+            print('cannot not make csp :)')
         # rospy.loginfo("csp made")
         # print("csp made : {} ".format(self.csp))
 
