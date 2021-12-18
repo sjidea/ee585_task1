@@ -336,12 +336,12 @@ class MyLocalPlanner(object):
         # point.z = 1.5
         # for ob in self._obstacles:
         #     print("id: {}, collision: {}".format(ob.id, self.check_obstacle(point, ob)))
-        try:
-            ob = []
-            for ob in self._obstacles:
-                print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
-                ob.append([ob.bbox.location.x, ob.bbox.location.y])
-        except:
+        
+        ob = []
+        for ob in self._obstacles:
+            print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
+            ob.append([ob.bbox.location.x, ob.bbox.location.y])
+        
             print('ob is the problem')
         try:
             path = FrenetPath.frenet_optimal_planning(self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
