@@ -301,7 +301,7 @@ class MyLocalPlanner(object):
         print("y = {}".format(len(self.waypoint_list[1])))
 
         try:
-            self.csp = FrenetPath.generate_target_course(x, y)
+            self.csp = frenet_optimal_trajectory.generate_target_course(x, y)
         except:
             print('cannot make csp')
         else:
@@ -375,7 +375,7 @@ class MyLocalPlanner(object):
         obs = np.array(obs)
         
         try:
-            path = FrenetPath.frenet_optimal_planning(self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
+            path = frenet_optimal_trajectory.frenet_optimal_planning(self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
                                             obs)
             # path = FrenetPath.frenet_optimal_planning(10.0/3.6, 0.0, 0.0, 2.0, 0.0, 0.0, \
                                             # [[0.0,0.0]])
