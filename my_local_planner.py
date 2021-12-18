@@ -299,11 +299,13 @@ class MyLocalPlanner(object):
             print('wrong printing !')
             
         '''
-        print("waypoint list transpose ! = {}".format(zip(*self.waypoint_list)))
+        # print("waypoint list transpose ! = {}".format(zip(*self.waypoint_list)))
+        waypoint_np = np.array(self.waypoint_list).T
+        self.waypoint_list = waypoint_np.tolist()
 
 
         try:
-            _, _, _, _, self.csp = FrenetPath.generate_target_course(zip(*self.waypoint_list))
+            _, _, _, _, self.csp = FrenetPath.generate_target_course(self.waypoint_list)
         except:
             print('cannot make csp')
         # rospy.loginfo("csp made")
