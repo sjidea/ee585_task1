@@ -254,6 +254,8 @@ def generate_target_course(x, y):
         rospy.loginfo("is frenet error?? cannot")
     else:
         rospy.loginfo("not in here")
+    finally:
+        rospy.loginfo("now please tell me error")
     # s = np.arange(0, csp.s[-1], 0.1)
 
     # rx, ry, ryaw, rk = [], [], [], []
