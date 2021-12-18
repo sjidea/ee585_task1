@@ -340,6 +340,7 @@ class MyLocalPlanner(object):
                 if self._waypoints_queue:
                     self._waypoint_buffer.append(
                         self._waypoints_queue.popleft())
+                    print("lets see the result of popleft = {}".format(self._waypoint_buffer[-1]))
                 else:
                     break
 
@@ -368,7 +369,7 @@ class MyLocalPlanner(object):
         obs = [] 
         try:
             for ob in self._obstacles:
-                print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
+                # print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
                 obs.append([ob.bbox.location.x, ob.bbox.location.y])
         except:    
             print('ob is the problem')
@@ -386,9 +387,9 @@ class MyLocalPlanner(object):
             self.c_d = path.d[1]
             self.c_d_d = path.d_d[1]
             self.c_d_dd = path.d_dd[1]
-            # self.c_speed = path.s_d[1]
+            self.c_speed = path.s_d[1]
         except:
-            print('cannot get frenet or update')
+            print('cannot update s0, c_d, c_d_d ...')
         # try:
         #     self._waypoint_buffer = path
         # except:
