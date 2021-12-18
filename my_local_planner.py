@@ -277,8 +277,8 @@ class MyLocalPlanner(object):
         self._waypoints_queue.clear()
         for i, elem in enumerate(current_plan):
         #----- to eliminate repeted points
-            if self._waypoints_queue: # not empty
-                rospy.loginfo("waypoints queue = {}, idx = {}".format(self._waypoints_queue, i))
+            if self._waypoints_queue: # waypoints_queue is not empty
+                # rospy.loginfo("waypoints queue = {}, idx = {}".format(self._waypoints_queue, i))
                 prev_ = self._waypoints_queue[-1].position
                 curr_ = elem.pose.position
                 if not ((prev_.x == curr_.x) and (prev_.y == curr_.y)):
@@ -290,10 +290,13 @@ class MyLocalPlanner(object):
 
         #--- end eliminating repeated points
             self._waypoints_queue.append(elem.pose)
-
-
-        print("waypoint_list = {}".format(self.waypoint_list[:,0]))
+        try:
+            a  = self.waypoint_list[:,0]
+        except:
+            print('wrong printing !')
+        print("waypoint_list = {}".format(a))
         print("waypoint_list squeeze shape = {}".format(self.waypoint_list[:,0].squeeze.shape))
+
         try:
             _, _, _, _, self.csp = FrenetPath.generate_target_course(self.waypoint_list[:,0].squeeze())
         except:
