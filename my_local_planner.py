@@ -339,6 +339,7 @@ class MyLocalPlanner(object):
         try:
             ob = []
             for ob in self._obstacles:
+                print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
                 ob.append([ob.bbox.location.x, ob.bbox.location.y])
         except:
             print('ob is the problem')
