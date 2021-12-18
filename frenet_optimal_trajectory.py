@@ -219,18 +219,18 @@ def check_collision(fp, ob):
 def check_paths(fplist, ob):
     ok_ind = []
     for i, _ in enumerate(fplist):
-        if any([v > MAX_SPEED for v in fplist[i].s_d]):  # Max speed check
-            print(" exceed max speed {}".format(i))
-            continue
-        elif any([abs(a) > MAX_ACCEL for a in
-                  fplist[i].s_dd]):  # Max accel check
-            print(" exceed max accel {}".format(i))
-            continue
-        elif any([abs(c) > MAX_CURVATURE for c in
-                  fplist[i].c]):  # Max curvature check
-            print(" exceed max curva {}".format(i))
-            continue
-        elif not check_collision(fplist[i], ob):
+        # if any([v > MAX_SPEED for v in fplist[i].s_d]):  # Max speed check
+        #     print(" exceed max speed {}".format(i))
+        #     continue
+        # elif any([abs(a) > MAX_ACCEL for a in
+        #           fplist[i].s_dd]):  # Max accel check
+        #     print(" exceed max accel {}".format(i))
+        #     continue
+        # elif any([abs(c) > MAX_CURVATURE for c in
+        #           fplist[i].c]):  # Max curvature check
+        #     print(" exceed max curva {}".format(i))
+        #     continue
+        if not check_collision(fplist[i], ob):
             print(" exceed collision {}".format(i))
             continue
 
