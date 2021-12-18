@@ -441,6 +441,7 @@ class MyLocalPlanner(object):
             for i in range(max_index + 1):
                 self._waypoint_buffer.popleft()
         if update_path:
+            print("update path")
             try:
                 self.s0 = path.s[1]
                 self.c_d = path.d[1]
