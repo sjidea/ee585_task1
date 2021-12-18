@@ -251,9 +251,9 @@ def generate_target_course(x, y):
     try:
         csp = cubic_spline_planner.Spline2D(x, y)
     except:
-        print("is frenet error?? cannot")
+        rospy.loginfo("is frenet error?? cannot")
     else:
-        print("not in here")
+        rospy.loginfo("not in here")
     # s = np.arange(0, csp.s[-1], 0.1)
 
     # rx, ry, ryaw, rk = [], [], [], []
