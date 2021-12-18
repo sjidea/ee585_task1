@@ -291,20 +291,21 @@ class MyLocalPlanner(object):
         #--- end eliminating repeated points
             self._waypoints_queue.append(elem.pose)
  
-        # rospy.loginfo("waypoint_list = {}".format(self.waypoint_list.T))
+        ''' 
+        # trying the transpose of waypoint_list
         try:
             a  = list(zip(*self.waypoint_list))
         except:
             print('wrong printing !')
-        print("waypoint_list x = {}".format(a[0]))
-        # print("waypoint_list squeeze shape = {}".format(self.waypoint_list[:,0].squeeze.shape))
+        '''
+
 
         try:
-            _, _, _, _, self.csp = FrenetPath.generate_target_course(self.waypoint_list[:,0].squeeze())
+            _, _, _, _, self.csp = FrenetPath.generate_target_course(list(zip(*self.waypoint_list)))
         except:
             print('cannot make csp')
         # rospy.loginfo("csp made")
-        print("csp made : {} ".format(self.csp))
+        # print("csp made : {} ".format(self.csp))
 
         try:
             self.c_speed = 10.0 / 3.6
