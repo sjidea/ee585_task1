@@ -413,6 +413,7 @@ class MyLocalPlanner(object):
 
         sampling_radius = target_speed * 1 / 3.6  # 1 seconds horizon
         min_distance = sampling_radius * self.MIN_DISTANCE_PERCENTAGE
+        
 
         for i, route_point in enumerate(self._waypoint_buffer):
             if distance_vehicle(
@@ -426,6 +427,7 @@ class MyLocalPlanner(object):
             update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
         except:
             print("cannot make update sig")            
+        print("dist = {}, min dist = {}".format(math.sqrt(dist_x * dist_x + dist_y * dist_y), min_distance))
 
         if max_index >= 0:
             for i in range(max_index + 1):
