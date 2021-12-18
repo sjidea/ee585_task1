@@ -28,7 +28,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)) +
 
 try:
     from quintic_polynomials_planner import QuinticPolynomial
-    import cubic_spline_planner
+    from  cubic_spline_planner import Spline2D
 except ImportError:
     raise
 
