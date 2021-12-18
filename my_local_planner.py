@@ -275,7 +275,12 @@ class MyLocalPlanner(object):
         self._waypoints_queue.clear()
         for elem in current_plan:
             self._waypoints_queue.append(elem.pose)
+            print('elem = {}'.format(elem))
+            print('elem.pose = {}'.format(elem.pose))
+            print('waypoints_queue = {}'.format(self._waypoints_queue))
         
+
+
         try:
             _, _, _, _, self.csp = FrenetPath.generate_target_course(self._waypoints_queue)
         except:
@@ -346,12 +351,13 @@ class MyLocalPlanner(object):
                 obs.append([ob.bbox.location.x, ob.bbox.location.y])
         except:    
             print('ob is the problem')
+        obs = np.array(obs)
         
         try:
             path = FrenetPath.frenet_optimal_planning(self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
-            #                                 [[ob.bbox.location.x, ob.bbox.location.y] for ob in self._obstacles])
+                                            obs)
             # path = FrenetPath.frenet_optimal_planning(10.0/3.6, 0.0, 0.0, 2.0, 0.0, 0.0, \
-                                            [[0.0,0.0]])
+                                            # [[0.0,0.0]])
         except:
             print('cannot get frenet')
         try:
