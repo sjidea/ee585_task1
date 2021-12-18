@@ -314,7 +314,7 @@ class MyLocalPlanner(object):
         except:
             print('cannot make csp')
         else:
-            print('cannot not make csp :)')
+            print('can make csp :)')
         # rospy.loginfo("csp made")
         # print("csp made : {} ".format(self.csp))
 
