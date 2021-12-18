@@ -340,7 +340,7 @@ class MyLocalPlanner(object):
                 if self._waypoints_queue:
                     self._waypoint_buffer.append(
                         self._waypoints_queue.popleft())
-                    print("lets see the result of popleft = {}".format(self._waypoint_buffer[-1]))
+                    # print("lets see the result of popleft = {}".format(self._waypoint_buffer[-1]))
                 else:
                     break
 
@@ -378,10 +378,9 @@ class MyLocalPlanner(object):
         try:
             path = frenet_optimal_trajectory.frenet_optimal_planning(self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
                                             obs)
-            # path = FrenetPath.frenet_optimal_planning(10.0/3.6, 0.0, 0.0, 2.0, 0.0, 0.0, \
-                                            # [[0.0,0.0]])
         except:
             print('cannot get frenet path')
+        print("path = {}".format(path))
         try:
             self.s0 = path.s[1]
             self.c_d = path.d[1]
@@ -394,8 +393,13 @@ class MyLocalPlanner(object):
         #     self._waypoint_buffer = path
         # except:
         #     print('cannot set path')
+
+
         # target waypoint
+        ''' modigy target waypoint '''
+        
         self.target_route_point = self._waypoint_buffer[0]
+        # self.target_route_point.position.x = 
 
         target_point = PointStamped()
         target_point.header.frame_id = "map"
@@ -403,6 +407,9 @@ class MyLocalPlanner(object):
         target_point.point.y = self.target_route_point.position.y
         target_point.point.z = self.target_route_point.position.z
         self._target_point_publisher.publish(target_point)
+
+
+
         
         # move using PID controllers
         control = self._vehicle_controller.run_step(
