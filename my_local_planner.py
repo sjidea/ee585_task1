@@ -417,10 +417,10 @@ class MyLocalPlanner(object):
         self._target_point_publisher.publish(target_point)
 
 
-        if get_obstacles_for_speedup:
-            target_speed = 50.0 / 3.6
+        # if get_obstacles_for_speedup:
+        #     target_speed = 50.0 / 3.6
 
-
+        print("target_speed = {}".format(target_speed))
         
         # move using PID controllers
         control = self._vehicle_controller.run_step(
