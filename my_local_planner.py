@@ -338,8 +338,8 @@ class MyLocalPlanner(object):
         #     print("id: {}, collision: {}".format(ob.id, self.check_obstacle(point, ob)))
         
         
-        check if ob is ok
-        obs = []
+        # check if ob is ok
+        obs = [] 
         try:
             for ob in self._obstacles:
                 print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
