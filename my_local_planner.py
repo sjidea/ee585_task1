@@ -297,7 +297,9 @@ class MyLocalPlanner(object):
             a  = list(zip(*self.waypoint_list))
         except:
             print('wrong printing !')
+            
         '''
+        print("waypoint list transpose ! = {}".format(lsit(zip(*self.waypoint_list))))
 
 
         try:
