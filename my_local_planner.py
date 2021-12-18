@@ -418,6 +418,9 @@ class MyLocalPlanner(object):
                 max_index = i
         try: # get update signal
             for j, route_point in enumerate(path):
+        except:
+            print("cannot make for loop")
+        try:
                 dist_x = route_point.x - current_pose.position.x 
                 dist_y = route_point.y - current_pose.position.y
                 # if math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance
