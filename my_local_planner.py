@@ -417,7 +417,8 @@ class MyLocalPlanner(object):
                     route_point, current_pose.position) < min_distance:
                 max_index = i
 
-        for j, route_point in enumerate(path):
+        for j in len(path):
+            route_point = path[j]
             try:
                 dist_x = route_point.x - current_pose.position.x 
                 dist_y = route_point.y - current_pose.position.y
