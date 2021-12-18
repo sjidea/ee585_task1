@@ -306,8 +306,8 @@ class MyLocalPlanner(object):
         # print("waypoint okay? {}".format(self.waypoint_list))
 
 
-        print("x = {}".format(self.waypoint_list[0].shape))
-        print("y = {}".format(self.waypoint_list[1].shape))
+        print("x = {}".format(len(self.waypoint_list[0])))
+        print("y = {}".format(len(self.waypoint_list[1])))
 
         try:
             _, _, _, _, self.csp = FrenetPath.generate_target_course(self.waypoint_list[0], self.waypoint_list[1])
