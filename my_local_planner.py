@@ -301,10 +301,10 @@ class MyLocalPlanner(object):
             
         '''
         # print("waypoint list transpose ! = {}".format(zip(*self.waypoint_list)))
-        print("waypoint init={}".format(self.waypoint_list))
+        # print("waypoint init={}".format(self.waypoint_list))
         waypoint_np = np.array(self.waypoint_list).T
         self.waypoint_list = waypoint_np.tolist()
-        print("waypoint okay? {}".format(self.waypoint_list))
+        # print("waypoint okay? {}".format(self.waypoint_list))
 
 
         try:
