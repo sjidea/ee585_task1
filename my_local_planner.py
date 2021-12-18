@@ -21,7 +21,7 @@ from tf.transformations import euler_from_quaternion
 from carla_waypoint_types.srv import GetWaypoint
 from carla_msgs.msg import CarlaEgoVehicleControl
 from vehicle_pid_controller import VehiclePIDController  # pylint: disable=relative-import
-from misc import distance_vehicle  # pylint: disable=relative-import
+from misc import distance_vehicle, compute_magnitude_angle  # pylint: disable=relative-import
 import carla
 import carla_ros_bridge.transforms as trans
 
@@ -166,6 +166,13 @@ class MyLocalPlanner(object):
                     x = ros_transform.position.x
                     y = ros_transform.position.y
                     z = ros_transform.position.z 
+
+
+                    current_waypoint = self.get_waypoint(location)
+                    waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
+                    (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
+                                                                 - waypoint_xodr.transform.rotation.yaw * math.pi / 180.0)
+                    if (angle < -math.pi/2 ) or (angle > math.pi/2)
                     distance.append(math.sqrt((x-location.x)**2 + (y-location.y)**2))
         return not any(distance < range)
 
@@ -417,7 +424,7 @@ class MyLocalPlanner(object):
         self._target_point_publisher.publish(target_point)
 
 
-        if self.get_obstacles_for_speedup:
+        if self.get_obstacles_for_speedup(current_pose.position, 120):
             target_speed = 50
 
         print("target_speed = {}".format(target_speed))
