@@ -254,13 +254,13 @@ def generate_target_course(x, y):
         print("is frenet error?? cannot")
     s = np.arange(0, csp.s[-1], 0.1)
 
-    rx, ry, ryaw, rk = [], [], [], []
-    for i_s in s:
-        ix, iy = csp.calc_position(i_s)
-        rx.append(ix)
-        ry.append(iy)
-        ryaw.append(csp.calc_yaw(i_s))
-        rk.append(csp.calc_curvature(i_s))
+    # rx, ry, ryaw, rk = [], [], [], []
+    # for i_s in s:
+    #     ix, iy = csp.calc_position(i_s)
+    #     rx.append(ix)
+    #     ry.append(iy)
+    #     ryaw.append(csp.calc_yaw(i_s))
+    #     rk.append(csp.calc_curvature(i_s))
 
     return csp
 
