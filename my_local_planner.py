@@ -157,7 +157,7 @@ class MyLocalPlanner(object):
     def get_obstacles_for_speedup(self, location, range):
         obstacles = []
         actor_list = self.world.get_actors()
-        distance = -=
+        distance = []
         for actor in actor_list:
             if "role_name" in actor.attributes:
                 if actor.attributes["role_name"] == 'autopilot' or actor.attributes["role_name"] == "static":
