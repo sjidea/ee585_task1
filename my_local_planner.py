@@ -27,11 +27,10 @@ import carla_ros_bridge.transforms as trans
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) +
-                "/")
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 try:
-    from frenet_optimal_trajectory import FrenetPath, QuarticPolynomial
+    import frenet_optimal_trajectory 
 except ImportError:
     raise
 
