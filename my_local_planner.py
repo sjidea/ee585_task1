@@ -150,9 +150,24 @@ class MyLocalPlanner(object):
                         ob.vy = actor.get_velocity().y
                         ob.vz = actor.get_velocity().z
                         ob.bbox = actor.bounding_box # in local frame
-                        print("x: {}, y: {}, z:{}").format(x, y, z)
-                        print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
+                        # print("x: {}, y: {}, z:{}").format(x, y, z)
+                        # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
                         self._obstacles.append(ob)
+
+    def get_obstacles_for_speedup(self, location, range):
+        obstacles = []
+        actor_list = self.world.get_actors()
+        distance = -=
+        for actor in actor_list:
+            if "role_name" in actor.attributes:
+                if actor.attributes["role_name"] == 'autopilot' or actor.attributes["role_name"] == "static":
+                    carla_transform = actor.get_transform()
+                    ros_transform = trans.carla_transform_to_ros_pose(carla_transform)
+                    x = ros_transform.position.x
+                    y = ros_transform.position.y
+                    z = ros_transform.position.z 
+                    distance.append(math.sqrt((x-location.x)**2 + (y-location.y)**2))
+        return not any(distance < range)
 
     def check_obstacle(self, point, obstacle):
         """
@@ -350,6 +365,7 @@ class MyLocalPlanner(object):
         # get a list of obstacles surrounding the ego vehicle
         self.get_obstacles(current_pose.position, 70.0)
 
+
         # # Example 1: get two waypoints on the left and right lane marking w.r.t current pose
         left, right = self.get_coordinate_lanemarking(current_pose.position)
         print("\x1b[6;30;33m------Example 1------\x1b[0m")
@@ -400,6 +416,9 @@ class MyLocalPlanner(object):
         target_point.point.z = self.target_route_point.position.z
         self._target_point_publisher.publish(target_point)
 
+
+        if get_obstacles_for_speedup:
+            target_speed = 50.0 / 3.6
 
 
         
