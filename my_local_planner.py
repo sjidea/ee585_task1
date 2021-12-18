@@ -389,6 +389,7 @@ class MyLocalPlanner(object):
         self.target_route_point.position.x = path.x[1]
         self.target_route_point.position.y = path.y[1]
         print("target route position x = {}, y = {}".format(self.target_route_point.position.x, self.target_route_point.position.y))
+        print("current position x = {}, y = {}".format(current_pose.position.x, current_pose.position.y))
 
         target_point = PointStamped()
         target_point.header.frame_id = "map"
