@@ -173,8 +173,8 @@ class MyLocalPlanner(object):
                     (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
                                                                  - waypoint_xodr.transform.rotation.yaw * math.pi / 180.0)
                     if (angle < -math.pi/2 ) or (angle > math.pi/2):
-                        distance.append(math.sqrt((x-location.x)**2 + (y-location.y)**2))
-        return not any(distance < range)
+                        distance.append(math.sqrt((x-location.x)**2 + (y-location.y)**2) < range)
+        return not any(distance )
 
     def check_obstacle(self, point, obstacle):
         """
