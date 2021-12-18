@@ -275,12 +275,13 @@ class MyLocalPlanner(object):
         self.target_route_point = None
         self._waypoint_buffer.clear()
         self._waypoints_queue.clear()
-        for elem in current_plan:
+        for i, elem in enumerate(current_plan):
         #----- to eliminate repeted points
-            prev_ = self._waypoints_queue[-1].position
-            curr_ = elem.pose.position
-            if not ((prev_.x == curr_.x) and (prev_.y == curr_.y)):
-                self.waypoint_list.append([curr_.x, curr_.y])
+            if not (i ==1):
+                prev_ = self._waypoints_queue[-1].position
+                curr_ = elem.pose.position
+                if not ((prev_.x == curr_.x) and (prev_.y == curr_.y)):
+                    self.waypoint_list.append([curr_.x, curr_.y])
             # print("elem = {}".format(elem))
             # print('elem.pose = {}'.format(elem.pose))
             # print('current elem.pose = {}'.format(elem.pose.position))
