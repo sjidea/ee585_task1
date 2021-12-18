@@ -109,13 +109,15 @@ class MyLocalPlanner(object):
             print('cannot make csp as list')
 
         try:
-            # self.c_speed = 0.0
+            self.c_speed = 0.0
             self.c_d = 0.0
             self.c_d_d = 0.0
             self.c_d_dd = 0.0
             self.s0 = 0.0
         except:
             print('cannot make initial state')
+        self.waypoint_list = []
+        
 
     def get_obstacles(self, location, range):
         """
@@ -274,17 +276,25 @@ class MyLocalPlanner(object):
         self._waypoint_buffer.clear()
         self._waypoints_queue.clear()
         for elem in current_plan:
-            self._waypoints_queue.append(elem.pose)
+        #----- to eliminate repeted points
+            prev_ = self._waypoints_queue[-1].position
+            curr_ = elem.pose.position
+            if (prev_.x == curr_.x) and (prev_.y == curr_.y)
+            else: 
+                self.waypoint_list.append([curr_.x, curr_.y])
             # print("elem = {}".format(elem))
             # print('elem.pose = {}'.format(elem.pose))
-            print('current elem.pose = {}'.format(elem.pose.position))
-            print('previous waypoints_queue = {}'.format(self._waypoints_queue[-1]))
-        
-        
+            # print('current elem.pose = {}'.format(elem.pose.position))
+            # print('previous waypoints_queue = {}'.format(self._waypoints_queue[-1]))
+
+        #--- end eliminating repeated points
+            self._waypoints_queue.append(elem.pose)
 
 
+        print("waypoint_list = {}".format(self.waypoint_list[:,0]))
+        print("waypoint_list squeeze shape = {}".format(self.waypoint_list[:,0].squeeze.shape))
         try:
-            _, _, _, _, self.csp = FrenetPath.generate_target_course(self._waypoints_queue)
+            _, _, _, _, self.csp = FrenetPath.generate_target_course(self.waypoint_list[:,0].squeeze())
         except:
             print('cannot make csp')
         # rospy.loginfo("csp made")
