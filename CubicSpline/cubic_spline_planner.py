@@ -133,9 +133,18 @@ class Spline2D:
     """
 
     def __init__(self, x, y):
-        self.s = self.__calc_s(x, y)
-        self.sx = Spline(self.s, x)
-        self.sy = Spline(self.s, y)
+        try:
+            self.s = self.__calc_s(x, y)
+        except:
+            print("line 1 of cubic spline cannot")
+        try:
+            self.sx = Spline(self.s, x)
+        except: 
+            print("line 2 of cubic spline cannot")
+        try:
+            self.sy = Spline(self.s, y)
+        except:
+            print("line 3 of c s cannot")
 
     def __calc_s(self, x, y):
         dx = np.diff(x)
