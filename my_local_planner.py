@@ -274,31 +274,22 @@ class MyLocalPlanner(object):
         self.target_route_point = None
         self._waypoint_buffer.clear()
         self._waypoints_queue.clear()
+        x=[]
+        y=[]
         for i, elem in enumerate(current_plan):
-            print("elem.pose.position = {}".format(elem.pose.position))
+
         #----- to eliminate repeted points
             if self._waypoints_queue: # waypoints_queue is not empty
-                # rospy.loginfo("waypoints queue = {}, idx = {}".format(self._waypoints_queue, i))
                 prev_ = self._waypoints_queue[-1].position
                 curr_ = elem.pose.position
                 if not ((prev_.x == curr_.x) and (prev_.y == curr_.y)):
                     self.waypoint_list.append([curr_.x, curr_.y])
-            # print("elem = {}".format(elem))
-            # print('elem.pose = {}'.format(elem.pose))
-            # print('current elem.pose = {}'.format(elem.pose.position))
-            # print('previous waypoints_queue = {}'.format(self._waypoints_queue[-1]))
+                    x.append(curr_.x)
+                    y.append(curr_.y)
 
         #--- end eliminating repeated points
             self._waypoints_queue.append(elem.pose)
  
-        ''' 
-        # trying the transpose of waypoint_list
-        try:
-            a  = list(zip(*self.waypoint_list))
-        except:
-            print('wrong printing !')
-            
-        '''
         # print("waypoint list transpose ! = {}".format(zip(*self.waypoint_list)))
         # print("waypoint init={}".format(self.waypoint_list))
         waypoint_np = np.array(self.waypoint_list).T
@@ -310,7 +301,7 @@ class MyLocalPlanner(object):
         print("y = {}".format(len(self.waypoint_list[1])))
 
         try:
-            self.csp = FrenetPath.generate_target_course(self.waypoint_list[0], self.waypoint_list[1])
+            self.csp = FrenetPath.generate_target_course(x, y)
         except:
             print('cannot make csp')
         else:
