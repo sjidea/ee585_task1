@@ -275,9 +275,11 @@ class MyLocalPlanner(object):
         self._waypoints_queue.clear()
         for elem in current_plan:
             self._waypoints_queue.append(elem.pose)
-            print('elem = {}'.format(elem))
-            print('elem.pose = {}'.format(elem.pose))
-            print('waypoints_queue = {}'.format(self._waypoints_queue))
+            # print("elem = {}".format(elem))
+            # print('elem.pose = {}'.format(elem.pose))
+            print('current elem.pose = {}'.format(elem.pose.position))
+            print('previous waypoints_queue = {}'.format(self._waypoints_queue[-1]))
+        
         
 
 
