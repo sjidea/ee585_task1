@@ -232,10 +232,22 @@ def check_paths(fplist, ob):
 
 
 def frenet_optimal_planning(csp, s0, c_speed, c_d, c_d_d, c_d_dd, ob):
-    fplist = calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0)
-    fplist = calc_global_paths(fplist, csp)
-    fplist = check_paths(fplist, ob)
+    try:
+        fplist = calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0)
+    except:
+        print("line 1 of frenet optimal planning")
 
+    try:
+        fplist = calc_global_paths(fplist, csp)
+    except:
+        print("line 2 of frenet optimal planning")
+
+    try:
+        fplist = check_paths(fplist, ob)
+    except:
+        print("line 3 of frenet optimal planning")
+
+    
     # find minimum cost path
     min_cost = float("inf")
     best_path = None
