@@ -388,6 +388,7 @@ class MyLocalPlanner(object):
         self.target_route_point = self._waypoint_buffer[0]
         self.target_route_point.position.x = path.x[1]
         self.target_route_point.position.y = path.y[1]
+        print("target route position x = {}, y = {}".format(self.target_route_point.position.x, self.target_route_point.position.y))
 
         target_point = PointStamped()
         target_point.header.frame_id = "map"
@@ -417,19 +418,7 @@ class MyLocalPlanner(object):
                     route_point, current_pose.position) < min_distance:
                 max_index = i
 
-        # for j in len(path):
-        #     route_point = path[j]
-        #     try:
-        #         dist_x = route_point.x - current_pose.position.x 
-        #         dist_y = route_point.y - current_pose.position.y
-        #     # if math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance
-        #     #     # do not update path
-        #     #     update_path = j
-        #         update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
-        #     except:
-        #         print("cannot make update sig")
         route_point = path[1]
-        
         try:
             dist_x = route_point.x - current_pose.position.x 
             dist_y = route_point.y - current_pose.position.y
