@@ -290,11 +290,13 @@ class MyLocalPlanner(object):
 
         #--- end eliminating repeated points
             self._waypoints_queue.append(elem.pose)
+ 
+        print("waypoint_list = {}".format(self.waypoint_list))
         try:
             a  = self.waypoint_list[][0]
         except:
             print('wrong printing !')
-        print("waypoint_list = {}".format(a))
+        print("waypoint_list x = {}".format(a))
         print("waypoint_list squeeze shape = {}".format(self.waypoint_list[:,0].squeeze.shape))
 
         try:
