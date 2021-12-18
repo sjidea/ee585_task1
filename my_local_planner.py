@@ -277,7 +277,7 @@ class MyLocalPlanner(object):
         self._waypoints_queue.clear()
         for i, elem in enumerate(current_plan):
         #----- to eliminate repeted points
-            if not isempty(self._waypoints_queue):
+            if self._waypoints_queue: # not empty
                 rospy.loginfo("waypoints queue = {}, idx = {}".format(self._waypoints_queue, i))
                 prev_ = self._waypoints_queue[-1].position
                 curr_ = elem.pose.position
