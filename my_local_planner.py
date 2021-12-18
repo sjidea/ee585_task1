@@ -293,11 +293,11 @@ class MyLocalPlanner(object):
  
         rospy.loginfo("waypoint_list = {}".format(self.waypoint_list))
         try:
-            a  = self.waypoint_list[][0]
+            a  = self.waypoint_list[0]
         except:
             print('wrong printing !')
         print("waypoint_list x = {}".format(a))
-        print("waypoint_list squeeze shape = {}".format(self.waypoint_list[:,0].squeeze.shape))
+        # print("waypoint_list squeeze shape = {}".format(self.waypoint_list[:,0].squeeze.shape))
 
         try:
             _, _, _, _, self.csp = FrenetPath.generate_target_course(self.waypoint_list[:,0].squeeze())
