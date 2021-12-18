@@ -420,10 +420,10 @@ class MyLocalPlanner(object):
                     route_point, current_pose.position) < min_distance:
                 max_index = i
 
-        route_point = path[1]
+        # route_point = path[1]
         try:
-            dist_x = route_point.x - current_pose.position.x 
-            dist_y = route_point.y - current_pose.position.y
+            dist_x = path.x[1] - current_pose.position.x 
+            dist_y = path.y[1] - current_pose.position.y
             update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
         except:
             print("cannot make update sig")            
