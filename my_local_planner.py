@@ -291,9 +291,9 @@ class MyLocalPlanner(object):
         #--- end eliminating repeated points
             self._waypoints_queue.append(elem.pose)
  
-        rospy.loginfo("waypoint_list = {}".format(self.waypoint_list))
+        rospy.loginfo("waypoint_list = {}".format(self.waypoint_list.T))
         try:
-            a  = self.waypoint_list[0]
+            a  = self.waypoint_list.T[0]
         except:
             print('wrong printing !')
         print("waypoint_list x = {}".format(a))
