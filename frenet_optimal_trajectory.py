@@ -36,10 +36,10 @@ SIM_LOOP = 500
 
 # Parameter
 MAX_SPEED = 50.0 / 3.6  # maximum speed [m/s]
-MAX_ACCEL = 2.0  # maximum acceleration [m/ss]
+# MAX_ACCEL = 2.0  # maximum acceleration [m/ss]
 MAX_CURVATURE = 1.0  # maximum curvature [1/m]
 # MAX_SPEED = 50.0 / 3.6  # maximum speed [m/s]
-# MAX_ACCEL = 4.0  # maximum acceleration [m/ss]
+MAX_ACCEL = 4.0  # maximum acceleration [m/ss]
 # MAX_CURVATURE = 5.0  # maximum curvature [1/m]
 
 MAX_ROAD_WIDTH = 3.5  # maximum road width [m]
