@@ -337,10 +337,10 @@ class MyLocalPlanner(object):
         # for ob in self._obstacles:
         #     print("id: {}, collision: {}".format(ob.id, self.check_obstacle(point, ob)))
         
-        ob = []
+        obs = []
         for ob in self._obstacles:
             print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
-            ob.append([ob.bbox.location.x, ob.bbox.location.y])
+            obs.append([ob.bbox.location.x, ob.bbox.location.y])
         
             print('ob is the problem')
         try:
