@@ -310,7 +310,7 @@ class MyLocalPlanner(object):
         print("y = {}".format(len(self.waypoint_list[1])))
 
         try:
-            _, _, _, _, self.csp = FrenetPath.generate_target_course(self.waypoint_list[0], self.waypoint_list[1])
+            self.csp = FrenetPath.generate_target_course(self.waypoint_list[0], self.waypoint_list[1])
         except:
             print('cannot make csp')
         else:

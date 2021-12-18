@@ -262,7 +262,7 @@ def generate_target_course(x, y):
         ryaw.append(csp.calc_yaw(i_s))
         rk.append(csp.calc_curvature(i_s))
 
-    return rx, ry, ryaw, rk, csp
+    return csp
 
 
 def main():
