@@ -369,8 +369,9 @@ class MyLocalPlanner(object):
         obs = [] 
         try:
             for ob in self._obstacles:
+                ros_transform = trans.carla_transform_to_ros_pose(ob.carla_transform)
                 # print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
-                obs.append([ob.bbox.location.x, ob.bbox.location.y])
+                obs.append([ros_transform.position.x, ros_transform.position.y])
         except:    
             print('ob is the problem')
         obs = np.array(obs)
