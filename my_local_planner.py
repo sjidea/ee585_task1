@@ -281,7 +281,6 @@ class MyLocalPlanner(object):
                 # rospy.loginfo("waypoints queue = {}, idx = {}".format(self._waypoints_queue, i))
                 prev_ = self._waypoints_queue[-1].position
                 curr_ = elem.pose.position
-                print("curr curr curr = {}".format(curr_))
                 if not ((prev_.x == curr_.x) and (prev_.y == curr_.y)):
                     self.waypoint_list.append([curr_.x, curr_.y])
             # print("elem = {}".format(elem))
