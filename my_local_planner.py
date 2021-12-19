@@ -383,13 +383,14 @@ class MyLocalPlanner(object):
         # current vehicle waypoint
         self._current_waypoint = self.get_waypoint(current_pose.position)
 
+
         # get a list of obstacles surrounding the ego vehicle
         self.get_obstacles(current_pose.position, 70.0)
         self.get_obstacles_active(current_pose.position, 40.0)
 
 
         # # Example 1: get two waypoints on the left and right lane marking w.r.t current pose
-        left, right = self.get_coordinate_lanemarking(current_pose.position)
+        # left, right = self.get_coordinate_lanemarking(current_pose.position)
         # print("\x1b[6;30;33m------Example 1------\x1b[0m")
         # print("Left: {}, {}; right: {}, {}".format(left.x, left.y, right.x, right.y))
         
@@ -507,5 +508,9 @@ class MyLocalPlanner(object):
             except:
                 print('cannot update s0, c_d, c_d_d ...')
 
+
+        if not self._current_waypoint.lane_change:
+            control.throttle = 0.0
+            control.brake = 0.2
 
         return control, False
