@@ -404,10 +404,11 @@ class MyLocalPlanner(object):
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
-        if len(path.x) :
-            self.target_route_point.position.x = path.x[1]
-            print("target_route_point path= {}, {}".format(path.x[1], path.y[1]))
-            self.target_route_point.position.y = path.y[1]
+        if path:
+            if len(path.x) :
+                self.target_route_point.position.x = path.x[1]
+                print("target_route_point path= {}, {}".format(path.x[1], path.y[1]))
+                self.target_route_point.position.y = path.y[1]
         # elif len(path.x):
         #     self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)/2
         #     self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y)/2
@@ -451,13 +452,14 @@ class MyLocalPlanner(object):
         dist_x = target_point.point.x - current_pose.position.x 
         dist_y = target_point.point.y - current_pose.position.y
         update_path = math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance
-         
-        if update_path and len(path.x):
-            self.s0 = path.s[1]
-            self.c_d = path.d[1]
-            self.c_d_d = path.d_d[1]
-            self.c_d_dd = path.d_dd[1]
-            self.c_speed = path.s_d[1]
+        
+        if path:
+            if update_path and len(path.x):
+                self.s0 = path.s[1]
+                self.c_d = path.d[1]
+                self.c_d_d = path.d_d[1]
+                self.c_d_dd = path.d_dd[1]
+                self.c_speed = path.s_d[1]
 
 
         return control, False
