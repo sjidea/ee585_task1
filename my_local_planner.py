@@ -436,7 +436,7 @@ class MyLocalPlanner(object):
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
-        if path.x[1]:
+        if len(path.x):
             self.target_route_point.position.x = path.x[1]
             print("target_route_point = {}, {}".format(path.x[1], path.y[1]))
             self.target_route_point.position.y = path.y[1]
@@ -445,7 +445,7 @@ class MyLocalPlanner(object):
         #     # self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y) 
         #     self.target_route_point.position.x = self._waypoint_buffer[0].position.x
         #     self.target_route_point.position.y = self._waypoint_buffer[0].position.y       
-            print("else target route point = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))           
+            # print("else target route point = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))           
         target_point = PointStamped()
         target_point.header.frame_id = "map"
         target_point.point.x = self.target_route_point.position.x
