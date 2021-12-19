@@ -397,6 +397,7 @@ class MyLocalPlanner(object):
                 obs.append([ros_transform.position.x, ros_transform.position.y])
             
         obs = np.array(obs)
+        print("obstacle list = {}".format(obs))
         
         # if self.get_obstacles_for_speedup(current_pose.position, 120) and not self.get_obstacles_for_speedup(current_pose.position, 100):
         #     target_speed = 50
