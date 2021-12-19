@@ -424,8 +424,8 @@ class MyLocalPlanner(object):
         self._target_point_publisher.publish(target_point)
 
 
-        if self.get_obstacles_for_speedup(current_pose.position, 120):
-            target_speed = 50
+        # if self.get_obstacles_for_speedup(current_pose.position, 120):
+        #     target_speed = 50
 
         print("target_speed = {}".format(target_speed))
         
