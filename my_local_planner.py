@@ -463,13 +463,13 @@ class MyLocalPlanner(object):
                     self.c_speed = path.s_d[1]
                 except:
                     print('cannot update s0, c_d, c_d_d ...')
-        # else:
-        #     if update_path:
-        #         self.s0 = path.s[1]
-        #         self.c_d = path.d[1]
-        #         self.c_d_d = path.d_d[1]
-        #         self.c_d_dd = path.d_dd[1]
-        #         self.c_speed = path.s_d[1]
+        else:
+            if update_path:
+                self.s0 = path.s[1]
+                self.c_d = path.d[1]
+                self.c_d_d = path.d_d[1]
+                self.c_d_dd = path.d_dd[1]
+                self.c_speed = path.s_d[1]
 
 
 
