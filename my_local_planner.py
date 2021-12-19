@@ -427,25 +427,24 @@ class MyLocalPlanner(object):
         # target_speed = 50
         # target_speed = 30
 
-        try:
-            path = frenet_optimal_trajectory.frenet_optimal_planning( \
+
+        path = frenet_optimal_trajectory.frenet_optimal_planning( \
                             self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
                             obs)
-        except:
-            print('cannot get frenet path')
+
         # print("path = {}".format(path))
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
         # if path:
-        # if ob:
-        self.target_route_point.position.x = path.x[1]
-        print("target_route_point = {}, {}".format(path.x[1], path.y[1]))
-        self.target_route_point.position.y = path.y[1]
-        # else:
-        #     self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)
-        #     self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y) 
-        #     print("else target route point = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))           
+        if ob:
+            self.target_route_point.position.x = path.x[1]
+            print("target_route_point = {}, {}".format(path.x[1], path.y[1]))
+            self.target_route_point.position.y = path.y[1]
+        else:
+            self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)
+            self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y) 
+            print("else target route point = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))           
         target_point = PointStamped()
         target_point.header.frame_id = "map"
         target_point.point.x = self.target_route_point.position.x
@@ -473,13 +472,10 @@ class MyLocalPlanner(object):
             for i in range(max_index + 1):
                 self._waypoint_buffer.popleft()
 
-        update_path = -1
-        try:
-            dist_x = target_point.point.x - current_pose.position.x 
-            dist_y = target_point.point.y - current_pose.position.y
-            update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
-        except:
-            print("cannot make update sig")            
+        dist_x = target_point.point.x - current_pose.position.x 
+        dist_y = target_point.point.y - current_pose.position.y
+        update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
+         
         # print("dist = {}, min dist = {}".format(math.sqrt(dist_x * dist_x + dist_y * dist_y), min_distance))
         # if path:
         #     if update_path:
@@ -499,14 +495,11 @@ class MyLocalPlanner(object):
         #         self.c_d_dd = path.d_dd[1]
         #         self.c_speed = path.s_d[1]
         if update_path:
-            try:
-                self.s0 = path.s[1]
-                self.c_d = path.d[1]
-                self.c_d_d = path.d_d[1]
-                self.c_d_dd = path.d_dd[1]
-                self.c_speed = path.s_d[1]
-            except:
-                print('cannot update s0, c_d, c_d_d ...')
+            self.s0 = path.s[1]
+            self.c_d = path.d[1]
+            self.c_d_d = path.d_d[1]
+            self.c_d_dd = path.d_dd[1]
+            self.c_speed = path.s_d[1]
         
         # print("current_waypoint.lane_change = {}".format(self._current_waypoint.lane_change))
         # if self._current_waypoint.lane_change== "NONE":
