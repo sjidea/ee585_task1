@@ -11,7 +11,6 @@ Ref:
 """
 
 import math
-
 # import matplotlib.pyplot as plt
 import numpy as np
 
@@ -162,39 +161,39 @@ def quintic_polynomials_planner(sx, sy, syaw, sv, sa, gx, gy, gyaw, gv, ga, max_
     return time, rx, ry, ryaw, rv, ra, rj
 
 
-def plot_arrow(x, y, yaw, length=1.0, width=0.5, fc="r", ec="k"):  # pragma: no cover
-    """
-    Plot arrow
-    """
+# def plot_arrow(x, y, yaw, length=1.0, width=0.5, fc="r", ec="k"):  # pragma: no cover
+#     """
+#     Plot arrow
+#     """
 
-    if not isinstance(x, float):
-        for (ix, iy, iyaw) in zip(x, y, yaw):
-            plot_arrow(ix, iy, iyaw)
-    # else:
-    #     plt.arrow(x, y, length * math.cos(yaw), length * math.sin(yaw),
-    #               fc=fc, ec=ec, head_width=width, head_length=width)
-    #     plt.plot(x, y)
+#     if not isinstance(x, float):
+#         for (ix, iy, iyaw) in zip(x, y, yaw):
+#             plot_arrow(ix, iy, iyaw)
+#     else:
+#         plt.arrow(x, y, length * math.cos(yaw), length * math.sin(yaw),
+#                   fc=fc, ec=ec, head_width=width, head_length=width)
+#         plt.plot(x, y)
 
 
-def main():
-    print(__file__ + " start!!")
+# def main():
+#     print(__file__ + " start!!")
 
-    sx = 10.0  # start x position [m]
-    sy = 10.0  # start y position [m]
-    syaw = np.deg2rad(10.0)  # start yaw angle [rad]
-    sv = 1.0  # start speed [m/s]
-    sa = 0.1  # start accel [m/ss]
-    gx = 30.0  # goal x position [m]
-    gy = -10.0  # goal y position [m]
-    gyaw = np.deg2rad(20.0)  # goal yaw angle [rad]
-    gv = 1.0  # goal speed [m/s]
-    ga = 0.1  # goal accel [m/ss]
-    max_accel = 1.0  # max accel [m/ss]
-    max_jerk = 0.5  # max jerk [m/sss]
-    dt = 0.1  # time tick [s]
+#     sx = 10.0  # start x position [m]
+#     sy = 10.0  # start y position [m]
+#     syaw = np.deg2rad(10.0)  # start yaw angle [rad]
+#     sv = 1.0  # start speed [m/s]
+#     sa = 0.1  # start accel [m/ss]
+#     gx = 30.0  # goal x position [m]
+#     gy = -10.0  # goal y position [m]
+#     gyaw = np.deg2rad(20.0)  # goal yaw angle [rad]
+#     gv = 1.0  # goal speed [m/s]
+#     ga = 0.1  # goal accel [m/ss]
+#     max_accel = 1.0  # max accel [m/ss]
+#     max_jerk = 0.5  # max jerk [m/sss]
+#     dt = 0.1  # time tick [s]
 
-    time, x, y, yaw, v, a, j = quintic_polynomials_planner(
-        sx, sy, syaw, sv, sa, gx, gy, gyaw, gv, ga, max_accel, max_jerk, dt)
+#     time, x, y, yaw, v, a, j = quintic_polynomials_planner(
+#         sx, sy, syaw, sv, sa, gx, gy, gyaw, gv, ga, max_accel, max_jerk, dt)
 
     # if show_animation:  # pragma: no cover
     #     plt.plot(x, y, "-r")
@@ -226,5 +225,5 @@ def main():
     #     plt.show()
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

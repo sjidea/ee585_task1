@@ -299,8 +299,9 @@ class MyLocalPlanner(object):
         x=[]
         y=[]
         for i, elem in enumerate(current_plan):
-
-        #----- to eliminate repeted points
+            self._waypoints_queue.append(elem.pos
+ 
+        '''to eliminate repeted points'''
             if self._waypoints_queue: # waypoints_queue is not empty
                 prev_ = self._waypoints_queue[-1].position
                 curr_ = elem.pose.position
@@ -308,28 +309,18 @@ class MyLocalPlanner(object):
                     self.waypoint_list.append([curr_.x, curr_.y])
                     x.append(curr_.x)
                     y.append(curr_.y)
+        '''end eliminating repeated points'''
 
-        #--- end eliminating repeated points
-            self._waypoints_queue.append(elem.pose)
- 
-        # print("waypoint list transpose ! = {}".format(zip(*self.waypoint_list)))
-        # print("waypoint init={}".format(self.waypoint_list))
+
         waypoint_np = np.array(self.waypoint_list).T
         self.waypoint_list = waypoint_np.tolist()
-        # print("waypoint okay? {}".format(self.waypoint_list))
-
-
-        print("x = {}".format(len(self.waypoint_list[0])))
-        print("y = {}".format(len(self.waypoint_list[1])))
+        # print("x = {}".format(len(self.waypoint_list[0])))
+        # print("y = {}".format(len(self.waypoint_list[1])))
 
         try:
             self.csp = frenet_optimal_trajectory.generate_target_course(x, y)
         except:
             print('cannot make csp')
-        else:
-            print('can make csp :)')
-        # rospy.loginfo("csp made")
-        # print("csp made : {} ".format(self.csp))
 
         try:
             self.c_speed = 10.0 / 3.6
@@ -374,9 +365,9 @@ class MyLocalPlanner(object):
 
 
         # # Example 1: get two waypoints on the left and right lane marking w.r.t current pose
-        left, right = self.get_coordinate_lanemarking(current_pose.position)
-        print("\x1b[6;30;33m------Example 1------\x1b[0m")
-        print("Left: {}, {}; right: {}, {}".format(left.x, left.y, right.x, right.y))
+        # left, right = self.get_coordinate_lanemarking(current_pose.position)
+        # print("\x1b[6;30;33m------Example 1------\x1b[0m")
+        # print("Left: {}, {}; right: {}, {}".format(left.x, left.y, right.x, right.y))
         
         # # Example 2: check obstacle collision
         # print("\x1b[6;30;33m------Example 2------\x1b[0m")
@@ -401,21 +392,17 @@ class MyLocalPlanner(object):
         print("obstacle position {}", obs)
         
         try:
-            path = frenet_optimal_trajectory.frenet_optimal_planning(self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
-                                            obs)
+            path = frenet_optimal_trajectory.frenet_optimal_planning( \
+                            self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
+                            obs)
         except:
             print('cannot get frenet path')
         # print("path = {}".format(path))
 
-        # target waypoint
-        ''' modigy target waypoint '''
-        
+        # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
         self.target_route_point.position.x = path.x[1]
         self.target_route_point.position.y = path.y[1]
-        print("target route position x = {}, y = {}".format(self.target_route_point.position.x, self.target_route_point.position.y))
-        print("current position x = {}, y = {}".format(current_pose.position.x, current_pose.position.y))
-
         target_point = PointStamped()
         target_point.header.frame_id = "map"
         target_point.point.x = self.target_route_point.position.x
@@ -423,11 +410,13 @@ class MyLocalPlanner(object):
         target_point.point.z = self.target_route_point.position.z
         self._target_point_publisher.publish(target_point)
 
-
-        # if self.get_obstacles_for_speedup(current_pose.position, 120):
-        #     target_speed = 50
-
+''' 
+        if self.get_obstacles_for_speedup(current_pose.position, 120):
+            target_speed = 50
+        else:
+            target_speed = 30
         print("target_speed = {}".format(target_speed))
+'''
         
         # move using PID controllers
         control = self._vehicle_controller.run_step(
@@ -437,31 +426,28 @@ class MyLocalPlanner(object):
 
         # purge the queue of obsolete waypoints
         max_index = -1
-        update_path = -1
 
         sampling_radius = target_speed * 1 / 3.6  # 1 seconds horizon
         min_distance = sampling_radius * self.MIN_DISTANCE_PERCENTAGE
-        
 
         for i, route_point in enumerate(self._waypoint_buffer):
             if distance_vehicle(
                     route_point, current_pose.position) < min_distance:
                 max_index = i
+        if max_index >= 0:
+            for i in range(max_index + 1):
+                self._waypoint_buffer.popleft()
 
-        # route_point = path[1]
+        update_path = -1
         try:
             dist_x = path.x[1] - current_pose.position.x 
             dist_y = path.y[1] - current_pose.position.y
             update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
         except:
             print("cannot make update sig")            
-        print("dist = {}, min dist = {}".format(math.sqrt(dist_x * dist_x + dist_y * dist_y), min_distance))
+        # print("dist = {}, min dist = {}".format(math.sqrt(dist_x * dist_x + dist_y * dist_y), min_distance))
 
-        if max_index >= 0:
-            for i in range(max_index + 1):
-                self._waypoint_buffer.popleft()
         if update_path:
-            print("update path")
             try:
                 self.s0 = path.s[1]
                 self.c_d = path.d[1]

@@ -25,7 +25,6 @@ import os
 #                 "/../QuinticPolynomialsPlanner/")
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) +
                 "/CubicSpline/")
-
 try:
     from quintic_polynomials_planner import QuinticPolynomial
     import  cubic_spline_planner 
@@ -36,11 +35,8 @@ SIM_LOOP = 500
 
 # Parameter
 MAX_SPEED = 50.0 / 3.6  # maximum speed [m/s]
-# MAX_ACCEL = 2.0  # maximum acceleration [m/ss]
+MAX_ACCEL = 2.0  # maximum acceleration [m/ss]
 MAX_CURVATURE = 1.0  # maximum curvature [1/m]
-# MAX_SPEED = 50.0 / 3.6  # maximum speed [m/s]
-MAX_ACCEL = 4.0  # maximum acceleration [m/ss]
-# MAX_CURVATURE = 5.0  # maximum curvature [1/m]
 
 MAX_ROAD_WIDTH = 3.5  # maximum road width [m]
 D_ROAD_W = 1.0  # road width sampling length [m]
@@ -203,17 +199,17 @@ def calc_global_paths(fplist, csp):
     return fplist
 
 
-def check_collision(fp, ob):
-    for i in range(len(ob[:, 0])):
-        d = [((ix - ob[i, 0]) ** 2 + (iy - ob[i, 1]) ** 2)
-             for (ix, iy) in zip(fp.x, fp.y)]
+# def check_collision(fp, ob):
+#     for i in range(len(ob[:, 0])):
+#         d = [((ix - ob[i, 0]) ** 2 + (iy - ob[i, 1]) ** 2)
+#              for (ix, iy) in zip(fp.x, fp.y)]
 
-        collision = any([di <= ROBOT_RADIUS ** 2 for di in d])
+#         collision = any([di <= ROBOT_RADIUS ** 2 for di in d])
 
-        if collision:
-            return False
+#         if collision:
+#             return False
 
-    return True
+#     return True
 
 
 def check_paths(fplist, ob):

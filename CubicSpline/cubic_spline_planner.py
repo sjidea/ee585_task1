@@ -199,49 +199,49 @@ def calc_spline_course(x, y, ds=0.1):
     return rx, ry, ryaw, rk, s
 
 
-def main():  # pragma: no cover
-    print("Spline 2D test")
-    import matplotlib.pyplot as plt
-    x = [-2.5, 0.0, 2.5, 5.0, 7.5, 3.0, -1.0]
-    y = [0.7, -6, 5, 6.5, 0.0, 5.0, -2.0]
-    ds = 0.1  # [m] distance of each interpolated points
+# def main():  # pragma: no cover
+#     print("Spline 2D test")
+#     import matplotlib.pyplot as plt
+#     x = [-2.5, 0.0, 2.5, 5.0, 7.5, 3.0, -1.0]
+#     y = [0.7, -6, 5, 6.5, 0.0, 5.0, -2.0]
+#     ds = 0.1  # [m] distance of each interpolated points
 
-    sp = Spline2D(x, y)
-    s = np.arange(0, sp.s[-1], ds)
+#     sp = Spline2D(x, y)
+#     s = np.arange(0, sp.s[-1], ds)
 
-    rx, ry, ryaw, rk = [], [], [], []
-    for i_s in s:
-        ix, iy = sp.calc_position(i_s)
-        rx.append(ix)
-        ry.append(iy)
-        ryaw.append(sp.calc_yaw(i_s))
-        rk.append(sp.calc_curvature(i_s))
+#     rx, ry, ryaw, rk = [], [], [], []
+#     for i_s in s:
+#         ix, iy = sp.calc_position(i_s)
+#         rx.append(ix)
+#         ry.append(iy)
+#         ryaw.append(sp.calc_yaw(i_s))
+#         rk.append(sp.calc_curvature(i_s))
 
-    plt.subplots(1)
-    plt.plot(x, y, "xb", label="input")
-    plt.plot(rx, ry, "-r", label="spline")
-    plt.grid(True)
-    plt.axis("equal")
-    plt.xlabel("x[m]")
-    plt.ylabel("y[m]")
-    plt.legend()
+    # plt.subplots(1)
+    # plt.plot(x, y, "xb", label="input")
+    # plt.plot(rx, ry, "-r", label="spline")
+    # plt.grid(True)
+    # plt.axis("equal")
+    # plt.xlabel("x[m]")
+    # plt.ylabel("y[m]")
+    # plt.legend()
 
-    plt.subplots(1)
-    plt.plot(s, [np.rad2deg(iyaw) for iyaw in ryaw], "-r", label="yaw")
-    plt.grid(True)
-    plt.legend()
-    plt.xlabel("line length[m]")
-    plt.ylabel("yaw angle[deg]")
+    # plt.subplots(1)
+    # plt.plot(s, [np.rad2deg(iyaw) for iyaw in ryaw], "-r", label="yaw")
+    # plt.grid(True)
+    # plt.legend()
+    # plt.xlabel("line length[m]")
+    # plt.ylabel("yaw angle[deg]")
 
-    plt.subplots(1)
-    plt.plot(s, rk, "-r", label="curvature")
-    plt.grid(True)
-    plt.legend()
-    plt.xlabel("line length[m]")
-    plt.ylabel("curvature [1/m]")
+    # plt.subplots(1)
+    # plt.plot(s, rk, "-r", label="curvature")
+    # plt.grid(True)
+    # plt.legend()
+    # plt.xlabel("line length[m]")
+    # plt.ylabel("curvature [1/m]")
 
-    plt.show()
+    # plt.show()
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
