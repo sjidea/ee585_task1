@@ -85,7 +85,7 @@ class MyLocalPlanner(object):
         self._current_speed = None
         self._current_pose = None
         self._obstacles = []
-        # self._obstacles_active = []
+        self._obstacles_active = []
 
         # get world and map for finding actors and waypoints
         client = carla.Client('localhost', 2000)
@@ -155,31 +155,31 @@ class MyLocalPlanner(object):
                         # print("x: {}, y: {}, z:{}").format(x, y, z)
                         # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
                         self._obstacles.append(ob)
-    # def get_obstacles_active(self, location, range):
-    #     self._obstacles_active = []
-    #     actor_list = self.world.get_actors()
-    #     for actor in actor_list:
-    #         if "role_name" in actor.attributes:
-    #             else if: actor.attributes["role_name"] == "autopilot":
-    #                 carla_transform = actor.get_transform()
-    #                 ros_transform = trans.carla_transform_to_ros_pose(carla_transform)
-    #                 x = ros_transform.position.x
-    #                 y = ros_transform.position.y
-    #                 z = ros_transform.position.z 
-    #                 distance = math.sqrt((x-location.x)**2 + (y-location.y)**2)
-    #                 if distance < range:
-    #                     # print("obs distance: {}").format(distance)
-    #                     ob = Obstacle()
-    #                     ob.id = actor.id
-    #                     ob.carla_transform = carla_transform
-    #                     ob.ros_transform = ros_transform
-    #                     ob.vx = actor.get_velocity().x
-    #                     ob.vy = actor.get_velocity().y
-    #                     ob.vz = actor.get_velocity().z
-    #                     ob.bbox = actor.bounding_box # in local frame
-    #                     # print("x: {}, y: {}, z:{}").format(x, y, z)
-    #                     # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
-    #                     self._obstacles_active.append(ob)
+    def get_obstacles_active(self, location, range):
+        self._obstacles_active = []
+        actor_list = self.world.get_actors()
+        for actor in actor_list:
+            if "role_name" in actor.attributes:
+                else if: actor.attributes["role_name"] == "autopilot":
+                    carla_transform = actor.get_transform()
+                    ros_transform = trans.carla_transform_to_ros_pose(carla_transform)
+                    x = ros_transform.position.x
+                    y = ros_transform.position.y
+                    z = ros_transform.position.z 
+                    distance = math.sqrt((x-location.x)**2 + (y-location.y)**2)
+                    if distance < range:
+                        # print("obs distance: {}").format(distance)
+                        ob = Obstacle()
+                        ob.id = actor.id
+                        ob.carla_transform = carla_transform
+                        ob.ros_transform = ros_transform
+                        ob.vx = actor.get_velocity().x
+                        ob.vy = actor.get_velocity().y
+                        ob.vz = actor.get_velocity().z
+                        ob.bbox = actor.bounding_box # in local frame
+                        # print("x: {}, y: {}, z:{}").format(x, y, z)
+                        # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
+                        self._obstacles_active.append(ob)
 
     def get_obstacles_for_speedup(self, location, range):
         obstacles = []
@@ -384,7 +384,7 @@ class MyLocalPlanner(object):
 
         # get a list of obstacles surrounding the ego vehicle
         self.get_obstacles(current_pose.position, 70.0)
-        # self.get_obstacles_active(current_pose.position, 50.0)
+        self.get_obstacles_active(current_pose.position, 40.0)
 
 
         # # Example 1: get two waypoints on the left and right lane marking w.r.t current pose
@@ -409,9 +409,9 @@ class MyLocalPlanner(object):
             print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
             obs.append([ros_transform.position.x, ros_transform.position.y])
 
-        # for ob in self._obstacles_active:
-        #         ros_transform = trans.carla_transform_to_ros_pose(ob.carla_transform)
-        #         obs.append([ros_transform.position.x, ros_transform.position.y])
+        for ob in self._obstacles_active:
+                ros_transform = trans.carla_transform_to_ros_pose(ob.carla_transform)
+                obs.append([ros_transform.position.x, ros_transform.position.y])
             
         obs = np.array(obs)
 
