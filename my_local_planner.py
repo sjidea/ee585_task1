@@ -429,7 +429,10 @@ class MyLocalPlanner(object):
         target_point.point.z = self.target_route_point.position.z
         self._target_point_publisher.publish(target_point)
 
-        target_speed = 80
+        if check_obstacle(current_pose.position, obs):
+            target_speed = 80
+        else:
+            target_speed = 50
         # move using PID controllers
         control = self._vehicle_controller.run_step(
             target_speed, current_speed, current_pose, self.target_route_point)
