@@ -387,7 +387,7 @@ class MyLocalPlanner(object):
             print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
             obs.append([ros_transform.position.x, ros_transform.position.y])
 
-        for ob in self._obstacles_active:
+        for ob in self._obstacles_active + self._obstacles_active:
                 ros_transform = trans.carla_transform_to_ros_pose(ob.carla_transform)
                 obs.append([ros_transform.position.x, ros_transform.position.y])
             
@@ -429,10 +429,11 @@ class MyLocalPlanner(object):
         target_point.point.z = self.target_route_point.position.z
         self._target_point_publisher.publish(target_point)
 
-        if self.check_obstacle(current_pose.position, obs):
-            target_speed = 80
-        else:
-            target_speed = 50
+        target_speed = 50
+        for ob in self._obstacles_active:
+            if self.check_obstacle(current_pose.position, obs):
+                target_speed = 80
+
         # move using PID controllers
         control = self._vehicle_controller.run_step(
             target_speed, current_speed, current_pose, self.target_route_point)
