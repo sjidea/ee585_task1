@@ -117,6 +117,7 @@ class MyLocalPlanner(object):
             print('cannot make initial state')
         self.waypoint_list = []
         
+        
 
     def get_obstacles(self, location, range):
         """
@@ -408,8 +409,9 @@ class MyLocalPlanner(object):
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
-        self.target_route_point.position.x = path.x[1]
-        self.target_route_point.position.y = path.y[1]
+        if path:
+            self.target_route_point.position.x = path.x[1]
+            self.target_route_point.position.y = path.y[1]
         target_point = PointStamped()
         target_point.header.frame_id = "map"
         target_point.point.x = self.target_route_point.position.x
@@ -451,16 +453,24 @@ class MyLocalPlanner(object):
         except:
             print("cannot make update sig")            
         # print("dist = {}, min dist = {}".format(math.sqrt(dist_x * dist_x + dist_y * dist_y), min_distance))
+        if path:
+            if update_path:
+                try:
+                    self.s0 = path.s[1]
+                    self.c_d = path.d[1]
+                    self.c_d_d = path.d_d[1]
+                    self.c_d_dd = path.d_dd[1]
+                    self.c_speed = path.s_d[1]
+                except:
+                    print('cannot update s0, c_d, c_d_d ...')
+        # else:
+        #     if update_path:
+        #         self.s0 = path.s[1]
+        #         self.c_d = path.d[1]
+        #         self.c_d_d = path.d_d[1]
+        #         self.c_d_dd = path.d_dd[1]
+        #         self.c_speed = path.s_d[1]
 
-        if update_path:
-            try:
-                self.s0 = path.s[1]
-                self.c_d = path.d[1]
-                self.c_d_d = path.d_d[1]
-                self.c_d_dd = path.d_dd[1]
-                self.c_speed = path.s_d[1]
-            except:
-                print('cannot update s0, c_d, c_d_d ...')
 
 
         return control, False
