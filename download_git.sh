@@ -1,7 +1,7 @@
 clear
 rm -rf CubicSpline/ ee585_task1/
-rm frenet_optimal_trajectory.py quintic_polynomials_planner.py evaluate.py
-rm frenet_optimal_trajectory.pyc quintic_polynomials_planner.pyc evaluate.pyc
+rm frenet_optimal_trajectory.py quintic_polynomials_planner.py 
+rm frenet_optimal_trajectory.pyc quintic_polynomials_planner.pyc 
 git clone https://github.com/sjidea/ee585_task1.git
 mv ee585_task1/* .
 rm output.txt
