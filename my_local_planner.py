@@ -194,7 +194,6 @@ class MyLocalPlanner(object):
                     y = ros_transform.position.y
                     z = ros_transform.position.z 
 
-
                     current_waypoint = self.get_waypoint(location)
                     waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
                     (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
@@ -388,8 +387,6 @@ class MyLocalPlanner(object):
         self.get_obstacles(current_pose.position, 70.0)
         # self.get_obstacles_active(current_pose.position, 40.0)
 
-
-
         
         # check if ob is ok
         obs = [] 
@@ -403,40 +400,33 @@ class MyLocalPlanner(object):
         #         obs.append([ros_transform.position.x, ros_transform.position.y])
             
         obs = np.array(obs)
-
-
-        # print("obstacle position {}", obs)
         
         # if self.get_obstacles_for_speedup(current_pose.position, 120) and not self.get_obstacles_for_speedup(current_pose.position, 100):
         #     target_speed = 50
         # else:
         #     target_speed = 30
-        # target_speed = 50
-        # target_speed = 30
-
-
-        path = frenet_optimal_trajectory.frenet_optimal_planning( \
-                            self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
-                            obs)
-
+        if len(path):
+            path = frenet_optimal_trajectory.frenet_optimal_planning( \
+                                self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
+                                obs)
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
-        if len(path.x)>2:
+        if len(path.x):
             self.target_route_point.position.x = path.x[1]
             print("target_route_point path= {}, {}".format(path.x[1], path.y[1]))
             self.target_route_point.position.y = path.y[1]
-        elif len(path.x):
-            self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)/2
-            self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y)/2
-            print("target route point half = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))
-        else:
+        # elif len(path.x):
+        #     self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)/2
+        #     self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y)/2
+        #     print("target route point half = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))
         # else:
-        #     # self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)/2
-        #     # self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y)/2
-        #     self.target_route_point.position.x = self._waypoint_buffer[0].position.x
-        #     self.target_route_point.position.y = self._waypoint_buffer[0].position.y       
-            print("target route point else = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))  
+        # # else:
+        # #     # self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)/2
+        # #     # self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y)/2
+        # #     self.target_route_point.position.x = self._waypoint_buffer[0].position.x
+        # #     self.target_route_point.position.y = self._waypoint_buffer[0].position.y       
+        #     print("target route point else = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))  
 
 
         target_point = PointStamped()
