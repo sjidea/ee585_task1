@@ -397,7 +397,7 @@ class MyLocalPlanner(object):
         # else:
         #     target_speed = 30
         # target_speed = 50
-        target_speed = 30
+        # target_speed = 30
 
         try:
             path = frenet_optimal_trajectory.frenet_optimal_planning( \
