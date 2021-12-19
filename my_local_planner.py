@@ -511,7 +511,7 @@ class MyLocalPlanner(object):
         print("current_waypoint.lane_change = {}".format(self._current_waypoint.lane_change))
         if self._current_waypoint.lane_change== "NONE":
             print("None !:)))))")
-            control.throttle = 0.0
+            # control.throttle = 0.0
             control.brake = 0.2
 
         return control, False
