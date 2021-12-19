@@ -34,15 +34,15 @@ except ImportError:
 SIM_LOOP = 500
 
 # Parameter
-MAX_SPEED = 60.0 / 3.6  # maximum speed [m/s]
+MAX_SPEED = 50.0 / 3.6  # maximum speed [m/s]
 MAX_ACCEL = 2.0  # maximum acceleration [m/ss]
 MAX_CURVATURE = 1.0  # maximum curvature [1/m]
 
 MAX_ROAD_WIDTH = 5.0  # maximum road width [m]
 D_ROAD_W = 1.0  # road width sampling length [m]
 DT = 0.2  # time tick [s]
-MAX_T = 3.6  # max prediction time [m]
-MIN_T = 3.0  # min prediction time [m s]
+MAX_T = 3.7  # max prediction time [m]
+MIN_T = 3.2  # min prediction time [m s]
 TARGET_SPEED = 30.0 / 3.6  # target speed [m/s]
 D_T_S = 5.0 / 3.6  # target speed sampling length [m/s]
 N_S_SAMPLE = 3  # sampling number of target speed
