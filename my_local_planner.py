@@ -413,7 +413,7 @@ class MyLocalPlanner(object):
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
-        if len(path.x):
+        if len(path):
             self.target_route_point.position.x = path.x[1]
             print("target_route_point path= {}, {}".format(path.x[1], path.y[1]))
             self.target_route_point.position.y = path.y[1]
@@ -461,7 +461,7 @@ class MyLocalPlanner(object):
         dist_y = target_point.point.y - current_pose.position.y
         update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
          
-        if update_path:
+        if update_path and len(path):
             self.s0 = path.s[1]
             self.c_d = path.d[1]
             self.c_d_d = path.d_d[1]
