@@ -436,8 +436,7 @@ class MyLocalPlanner(object):
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
-        # if path:
-        if obs:
+        if path.x[1]:
             self.target_route_point.position.x = path.x[1]
             print("target_route_point = {}, {}".format(path.x[1], path.y[1]))
             self.target_route_point.position.y = path.y[1]
