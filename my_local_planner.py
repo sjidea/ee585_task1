@@ -118,7 +118,6 @@ class MyLocalPlanner(object):
             print('cannot make initial state')
         self.waypoint_list = []
         
-        
 
     def get_obstacles(self, location, range):
         """
@@ -143,7 +142,6 @@ class MyLocalPlanner(object):
                     z = ros_transform.position.z 
                     distance = math.sqrt((x-location.x)**2 + (y-location.y)**2)
                     if distance < range:
-                        # print("obs distance: {}").format(distance)
                         ob = Obstacle()
                         ob.id = actor.id
                         ob.carla_transform = carla_transform
@@ -152,8 +150,6 @@ class MyLocalPlanner(object):
                         ob.vy = actor.get_velocity().y
                         ob.vz = actor.get_velocity().z
                         ob.bbox = actor.bounding_box # in local frame
-                        # print("x: {}, y: {}, z:{}").format(x, y, z)
-                        # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
                         self._obstacles.append(ob)
     # def get_obstacles_active(self, location, range):
     #     self._obstacles_active = []
@@ -177,8 +173,6 @@ class MyLocalPlanner(object):
     #                     ob.vy = actor.get_velocity().y
     #                     ob.vz = actor.get_velocity().z
     #                     ob.bbox = actor.bounding_box # in local frame
-    #                     # print("x: {}, y: {}, z:{}").format(x, y, z)
-    #                     # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
     #                     self._obstacles_active.append(ob)
 
     def get_obstacles_for_speedup(self, location, range):
@@ -373,9 +367,7 @@ class MyLocalPlanner(object):
         if not self._waypoint_buffer:
             for i in range(self._buffer_size):
                 if self._waypoints_queue:
-                    self._waypoint_buffer.append(
-                        self._waypoints_queue.popleft())
-                    # print("lets see the result of popleft = {}".format(self._waypoint_buffer[-1]))
+                    self._waypoint_buffer.append(self._waypoints_queue.popleft())
                 else:
                     break
 
@@ -405,14 +397,14 @@ class MyLocalPlanner(object):
         #     target_speed = 50
         # else:
         #     target_speed = 30
-        # path = []
+
         path = frenet_optimal_trajectory.frenet_optimal_planning( \
                             self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
                             obs)
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
-        if len(path.x):
+        if len(path.x) :
             self.target_route_point.position.x = path.x[1]
             print("target_route_point path= {}, {}".format(path.x[1], path.y[1]))
             self.target_route_point.position.y = path.y[1]
@@ -458,7 +450,7 @@ class MyLocalPlanner(object):
 
         dist_x = target_point.point.x - current_pose.position.x 
         dist_y = target_point.point.y - current_pose.position.y
-        update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
+        update_path = math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance
          
         if update_path and len(path.x):
             self.s0 = path.s[1]

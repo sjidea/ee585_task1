@@ -40,7 +40,7 @@ MAX_CURVATURE = 1.0  # maximum curvature [1/m]
 
 MAX_ROAD_WIDTH = 5.0  # maximum road width [m]
 D_ROAD_W = 1.0  # road width sampling length [m]
-DT = 0.1  # time tick [s]
+DT = 0.2  # time tick [s]
 MAX_T = 4.1  # max prediction time [m]
 MIN_T = 3.5  # min prediction time [m s]
 TARGET_SPEED = 30.0 / 3.6  # target speed [m/s]
