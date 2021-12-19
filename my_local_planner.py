@@ -85,7 +85,7 @@ class MyLocalPlanner(object):
         self._current_speed = None
         self._current_pose = None
         self._obstacles = []
-        self._obstacles_active = []
+        # self._obstacles_active = []
 
         # get world and map for finding actors and waypoints
         client = carla.Client('localhost', 2000)
