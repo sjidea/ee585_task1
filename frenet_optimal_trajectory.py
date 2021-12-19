@@ -227,7 +227,7 @@ def check_paths(fplist, ob):
         #     print(" exceed max curva {}".format(i))
         #     continue
         if not check_collision(fplist[i], ob):
-            print(" exceed collision {}".format(i))
+            # print(" exceed collision {}".format(i))
             continue
 
         ok_ind.append(i)
