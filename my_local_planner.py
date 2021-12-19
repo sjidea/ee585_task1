@@ -340,8 +340,8 @@ class MyLocalPlanner(object):
         if not self._waypoint_buffer and not self._waypoints_queue:
             control = CarlaEgoVehicleControl()
             control.steer = 0.0
-            control.throttle = 0.3
-            control.brake = 0.0
+            control.throttle = 0.0
+            control.brake = 0.1
             control.hand_brake = False
             control.manual_gear_shift = False
 
