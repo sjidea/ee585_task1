@@ -509,7 +509,7 @@ class MyLocalPlanner(object):
                 print('cannot update s0, c_d, c_d_d ...')
 
 
-        if not self._current_waypoint.lane_change:
+        if self._current_waypoint.lane_change== "None":
             control.throttle = 0.0
             control.brake = 0.2
 
