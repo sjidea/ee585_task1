@@ -197,6 +197,7 @@ class MyLocalPlanner(object):
                     waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
                     (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
                                                                  - waypoint_xodr.transform.rotation.yaw * math.pi / 180.0)
+                    print("angle = {}".format(angle))
                     if (angle > -math.pi/3 ) or (angle < math.pi/3):
                         distance.append(math.sqrt((x-location.x)**2 + (y-location.y)**2) < range)
         return any(distance )
@@ -397,7 +398,7 @@ class MyLocalPlanner(object):
                 obs.append([ros_transform.position.x, ros_transform.position.y])
             
         obs = np.array(obs)
-        print("obstacle list = {}".format(obs))
+        # print("obstacle list = {}".format(obs))
         
         # if self.get_obstacles_for_speedup(current_pose.position, 120) and not self.get_obstacles_for_speedup(current_pose.position, 100):
         #     target_speed = 50
@@ -440,6 +441,7 @@ class MyLocalPlanner(object):
             if path:
                 if self.check_obstacle(current_pose.position, ob):
                     target_speed = 80
+            # elif 
             else:
                 target_speed = 20
             
