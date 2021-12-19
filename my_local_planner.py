@@ -405,6 +405,7 @@ class MyLocalPlanner(object):
         #     target_speed = 50
         # else:
         #     target_speed = 30
+        path = []
         if len(path):
             path = frenet_optimal_trajectory.frenet_optimal_planning( \
                                 self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
