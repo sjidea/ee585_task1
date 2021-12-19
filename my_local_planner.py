@@ -309,7 +309,7 @@ class MyLocalPlanner(object):
                     x.append(curr_.x)
                     y.append(curr_.y)
             '''end eliminating repeated points'''
-            
+
             self._waypoints_queue.append(elem.pose)
 
         waypoint_np = np.array(self.waypoint_list).T
@@ -411,11 +411,11 @@ class MyLocalPlanner(object):
         self._target_point_publisher.publish(target_point)
 
         # ''' 
-        # if self.get_obstacles_for_speedup(current_pose.position, 120):
-        #     target_speed = 50
-        # else:
-        #     target_speed = 30
-        # print("target_speed = {}".format(target_speed))
+        if self.get_obstacles_for_speedup(current_pose.position, 120):
+            target_speed = 50
+        else:
+            target_speed = 30
+        print("target_speed = {}".format(target_speed))
         # '''
         
         # move using PID controllers
