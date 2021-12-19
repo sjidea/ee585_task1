@@ -135,7 +135,7 @@ class MyLocalPlanner(object):
         actor_list = self.world.get_actors()
         for actor in actor_list:
             if "role_name" in actor.attributes:
-                if actor.attributes["role_name"] == 'static' :#or actor.attributes["role_name"] == "autopilot": #or actor.attributes["role_name"] == "static":
+                if actor.attributes["role_name"] == 'static' or actor.attributes["role_name"] == "autopilot": #or actor.attributes["role_name"] == "static":
                     carla_transform = actor.get_transform()
                     ros_transform = trans.carla_transform_to_ros_pose(carla_transform)
                     x = ros_transform.position.x
@@ -386,7 +386,7 @@ class MyLocalPlanner(object):
 
         # get a list of obstacles surrounding the ego vehicle
         self.get_obstacles(current_pose.position, 70.0)
-        self.get_obstacles_active(current_pose.position, 40.0)
+        # self.get_obstacles_active(current_pose.position, 40.0)
 
 
         # # Example 1: get two waypoints on the left and right lane marking w.r.t current pose
@@ -411,9 +411,9 @@ class MyLocalPlanner(object):
             print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
             obs.append([ros_transform.position.x, ros_transform.position.y])
 
-        for ob in self._obstacles_active:
-                ros_transform = trans.carla_transform_to_ros_pose(ob.carla_transform)
-                obs.append([ros_transform.position.x, ros_transform.position.y])
+        # for ob in self._obstacles_active:
+        #         ros_transform = trans.carla_transform_to_ros_pose(ob.carla_transform)
+        #         obs.append([ros_transform.position.x, ros_transform.position.y])
             
         obs = np.array(obs)
 
@@ -436,16 +436,22 @@ class MyLocalPlanner(object):
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
-        if len(path.x):
+        if len(path.x)>2:
             self.target_route_point.position.x = path.x[1]
-            print("target_route_point = {}, {}".format(path.x[1], path.y[1]))
+            print("target_route_point path= {}, {}".format(path.x[1], path.y[1]))
             self.target_route_point.position.y = path.y[1]
+        elif len(path.x):
+            self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)/2
+            self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y)/2
+            print("target route point half = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))
+        else:
+
         # else:
-        #     # self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)
-        #     # self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y) 
+        #     # self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)/2
+        #     # self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y)/2
         #     self.target_route_point.position.x = self._waypoint_buffer[0].position.x
         #     self.target_route_point.position.y = self._waypoint_buffer[0].position.y       
-            # print("else target route point = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))           
+            print("target route point else = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))           
         target_point = PointStamped()
         target_point.header.frame_id = "map"
         target_point.point.x = self.target_route_point.position.x
