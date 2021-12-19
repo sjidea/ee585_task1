@@ -389,7 +389,7 @@ class MyLocalPlanner(object):
 
 
         # # Example 1: get two waypoints on the left and right lane marking w.r.t current pose
-        # left, right = self.get_coordinate_lanemarking(current_pose.position)
+        left, right = self.get_coordinate_lanemarking(current_pose.position)
         # print("\x1b[6;30;33m------Example 1------\x1b[0m")
         # print("Left: {}, {}; right: {}, {}".format(left.x, left.y, right.x, right.y))
         
