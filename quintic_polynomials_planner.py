@@ -175,8 +175,8 @@ def quintic_polynomials_planner(sx, sy, syaw, sv, sa, gx, gy, gyaw, gv, ga, max_
 #         plt.plot(x, y)
 
 
-# def main():
-#     print(__file__ + " start!!")
+def main():
+    print(__file__ + " start!!")
 
 #     sx = 10.0  # start x position [m]
 #     sy = 10.0  # start y position [m]
@@ -225,5 +225,5 @@ def quintic_polynomials_planner(sx, sy, syaw, sv, sa, gx, gy, gyaw, gv, ga, max_
     #     plt.show()
 
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
