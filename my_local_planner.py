@@ -409,9 +409,9 @@ class MyLocalPlanner(object):
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
-        if path:
-            self.target_route_point.position.x = path.x[1]
-            self.target_route_point.position.y = path.y[1]
+        # if path:
+        self.target_route_point.position.x = path.x[1]
+        self.target_route_point.position.y = path.y[1]
         target_point = PointStamped()
         target_point.header.frame_id = "map"
         target_point.point.x = self.target_route_point.position.x
