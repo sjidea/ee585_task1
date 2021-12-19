@@ -85,7 +85,7 @@ class MyLocalPlanner(object):
         self._current_speed = None
         self._current_pose = None
         self._obstacles = []
-        self._obstacles_active = []
+        # self._obstacles_active = []
 
         # get world and map for finding actors and waypoints
         client = carla.Client('localhost', 2000)
@@ -406,16 +406,16 @@ class MyLocalPlanner(object):
         obs = [] 
         for ob in self._obstacles:
             ros_transform = trans.carla_transform_to_ros_pose(ob.carla_transform)
-            # print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
+            print("ob.bbox.location.x = {}".format(ob.bbox.location.x))
             obs.append([ros_transform.position.x, ros_transform.position.y])
 
         # for ob in self._obstacles_active:
         #         ros_transform = trans.carla_transform_to_ros_pose(ob.carla_transform)
         #         obs.append([ros_transform.position.x, ros_transform.position.y])
             
-        # obs = np.array(obs)
+        obs = np.array(obs)
 
-        
+
         # print("obstacle position {}", obs)
         
         # if self.get_obstacles_for_speedup(current_pose.position, 120) and not self.get_obstacles_for_speedup(current_pose.position, 100):
