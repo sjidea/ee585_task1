@@ -441,7 +441,7 @@ class MyLocalPlanner(object):
                 if self.check_obstacle(current_pose.position, ob):
                     target_speed = 80
             else:
-                target_speed = 1
+                target_speed = 20
             
         
 
