@@ -135,7 +135,7 @@ class MyLocalPlanner(object):
         actor_list = self.world.get_actors()
         for actor in actor_list:
             if "role_name" in actor.attributes:
-                if actor.attributes["role_name"] == 'autopilot' : #or actor.attributes["role_name"] == "static":
+                if actor.attributes["role_name"] == 'static' : #or actor.attributes["role_name"] == "static":
                     carla_transform = actor.get_transform()
                     ros_transform = trans.carla_transform_to_ros_pose(carla_transform)
                     x = ros_transform.position.x
@@ -156,12 +156,11 @@ class MyLocalPlanner(object):
                         # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
                         self._obstacles.append(ob)
     def get_obstacles_active(self, location, range):
-
         self._obstacles_active = []
         actor_list = self.world.get_actors()
         for actor in actor_list:
             if "role_name" in actor.attributes:
-                else if: actor.attributes["role_name"] == "static":
+                else if: actor.attributes["role_name"] == "autopilot":
                     carla_transform = actor.get_transform()
                     ros_transform = trans.carla_transform_to_ros_pose(carla_transform)
                     x = ros_transform.position.x
