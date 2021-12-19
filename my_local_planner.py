@@ -155,31 +155,31 @@ class MyLocalPlanner(object):
                         # print("x: {}, y: {}, z:{}").format(x, y, z)
                         # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
                         self._obstacles.append(ob)
-    def get_obstacles_active(self, location, range):
-        self._obstacles_active = []
-        actor_list = self.world.get_actors()
-        for actor in actor_list:
-            if "role_name" in actor.attributes:
-                if actor.attributes["role_name"] == "autopilot":
-                    carla_transform = actor.get_transform()
-                    ros_transform = trans.carla_transform_to_ros_pose(carla_transform)
-                    x = ros_transform.position.x
-                    y = ros_transform.position.y
-                    z = ros_transform.position.z 
-                    distance = math.sqrt((x-location.x)**2 + (y-location.y)**2)
-                    if distance < range:
-                        # print("obs distance: {}").format(distance)
-                        ob = Obstacle()
-                        ob.id = actor.id
-                        ob.carla_transform = carla_transform
-                        ob.ros_transform = ros_transform
-                        ob.vx = actor.get_velocity().x
-                        ob.vy = actor.get_velocity().y
-                        ob.vz = actor.get_velocity().z
-                        ob.bbox = actor.bounding_box # in local frame
-                        # print("x: {}, y: {}, z:{}").format(x, y, z)
-                        # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
-                        self._obstacles_active.append(ob)
+    # def get_obstacles_active(self, location, range):
+    #     self._obstacles_active = []
+    #     actor_list = self.world.get_actors()
+    #     for actor in actor_list:
+    #         if "role_name" in actor.attributes:
+    #             if actor.attributes["role_name"] == "autopilot":
+    #                 carla_transform = actor.get_transform()
+    #                 ros_transform = trans.carla_transform_to_ros_pose(carla_transform)
+    #                 x = ros_transform.position.x
+    #                 y = ros_transform.position.y
+    #                 z = ros_transform.position.z 
+    #                 distance = math.sqrt((x-location.x)**2 + (y-location.y)**2)
+    #                 if distance < range:
+    #                     # print("obs distance: {}").format(distance)
+    #                     ob = Obstacle()
+    #                     ob.id = actor.id
+    #                     ob.carla_transform = carla_transform
+    #                     ob.ros_transform = ros_transform
+    #                     ob.vx = actor.get_velocity().x
+    #                     ob.vy = actor.get_velocity().y
+    #                     ob.vz = actor.get_velocity().z
+    #                     ob.bbox = actor.bounding_box # in local frame
+    #                     # print("x: {}, y: {}, z:{}").format(x, y, z)
+    #                     # print("bbox x:{} y:{} z:{} ext: {} {} {}".format(ob.bbox.location.x, ob.bbox.location.y, ob.bbox.location.z, ob.bbox.extent.x, ob.bbox.extent.y, ob.bbox.extent.z))
+    #                     self._obstacles_active.append(ob)
 
     def get_obstacles_for_speedup(self, location, range):
         obstacles = []
@@ -389,20 +389,7 @@ class MyLocalPlanner(object):
         # self.get_obstacles_active(current_pose.position, 40.0)
 
 
-        # # Example 1: get two waypoints on the left and right lane marking w.r.t current pose
-        # left, right = self.get_coordinate_lanemarking(current_pose.position)
-        # print("\x1b[6;30;33m------Example 1------\x1b[0m")
-        # print("Left: {}, {}; right: {}, {}".format(left.x, left.y, right.x, right.y))
-        
-        # # Example 2: check obstacle collision
-        # print("\x1b[6;30;33m------Example 2------\x1b[0m")
-        # point = Point()
-        # point.x = 100.0
-        # point.y = 100.0
-        # point.z = 1.5
-        # for ob in self._obstacles:
-        #     print("id: {}, collision: {}".format(ob.id, self.check_obstacle(point, ob)))
-        
+
         
         # check if ob is ok
         obs = [] 
@@ -432,7 +419,6 @@ class MyLocalPlanner(object):
                             self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
                             obs)
 
-        # print("path = {}".format(path))
 
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
@@ -445,13 +431,14 @@ class MyLocalPlanner(object):
             self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y)/2
             print("target route point half = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))
         else:
-
         # else:
         #     # self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)/2
         #     # self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y)/2
         #     self.target_route_point.position.x = self._waypoint_buffer[0].position.x
         #     self.target_route_point.position.y = self._waypoint_buffer[0].position.y       
-            print("target route point else = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))           
+            print("target route point else = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))  
+
+
         target_point = PointStamped()
         target_point.header.frame_id = "map"
         target_point.point.x = self.target_route_point.position.x
@@ -483,35 +470,12 @@ class MyLocalPlanner(object):
         dist_y = target_point.point.y - current_pose.position.y
         update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
          
-        # print("dist = {}, min dist = {}".format(math.sqrt(dist_x * dist_x + dist_y * dist_y), min_distance))
-        # if path:
-        #     if update_path:
-        #         try:
-        #             self.s0 = path.s[1]
-        #             self.c_d = path.d[1]
-        #             self.c_d_d = path.d_d[1]
-        #             self.c_d_dd = path.d_dd[1]
-        #             self.c_speed = path.s_d[1]
-        #         except:
-        #             print('cannot update s0, c_d, c_d_d ...')
-        # else:
-        #     if update_path:
-        #         self.s0 = path.s[1]
-        #         self.c_d = path.d[1]
-        #         self.c_d_d = path.d_d[1]
-        #         self.c_d_dd = path.d_dd[1]
-        #         self.c_speed = path.s_d[1]
         if update_path:
             self.s0 = path.s[1]
             self.c_d = path.d[1]
             self.c_d_d = path.d_d[1]
             self.c_d_dd = path.d_dd[1]
             self.c_speed = path.s_d[1]
-        
-        # print("current_waypoint.lane_change = {}".format(self._current_waypoint.lane_change))
-        # if self._current_waypoint.lane_change== "NONE":
-        #     print("None !:)))))")
-        #     # control.throttle = 0.0
-        #     control.brake = 0.2
+
 
         return control, False
