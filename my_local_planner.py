@@ -301,7 +301,7 @@ class MyLocalPlanner(object):
         for i, elem in enumerate(current_plan):
             self._waypoints_queue.append(elem.pos
  
-        '''to eliminate repeted points'''
+            '''to eliminate repeted points'''
             if self._waypoints_queue: # waypoints_queue is not empty
                 prev_ = self._waypoints_queue[-1].position
                 curr_ = elem.pose.position
@@ -309,7 +309,7 @@ class MyLocalPlanner(object):
                     self.waypoint_list.append([curr_.x, curr_.y])
                     x.append(curr_.x)
                     y.append(curr_.y)
-        '''end eliminating repeated points'''
+            '''end eliminating repeated points'''
 
 
         waypoint_np = np.array(self.waypoint_list).T
