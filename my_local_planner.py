@@ -240,6 +240,7 @@ class MyLocalPlanner(object):
         """
         # get waypoints along road
         current_waypoint = self.get_waypoint(position)
+        print("current_waypoint = \n {}".format(current_waypoint))
         waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
         
         # find two orthonormal vectors to the direction of the lane
