@@ -382,7 +382,7 @@ class MyLocalPlanner(object):
 
         # get a list of obstacles surrounding the ego vehicle
         self.get_obstacles(current_pose.position, 70.0)
-        self.get_obstacles_active(current_pose.position, 40.0)
+        self.get_obstacles_active(current_pose.position, 20.0)
 
         
         # check if ob is ok
