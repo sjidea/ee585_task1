@@ -297,8 +297,7 @@ class MyLocalPlanner(object):
         self.target_route_point = None
         self._waypoint_buffer.clear()
         self._waypoints_queue.clear()
-        # x=[]
-        # y=[]
+
         for i, elem in enumerate(current_plan):
  
             '''to eliminate repeted points'''
@@ -307,16 +306,12 @@ class MyLocalPlanner(object):
                 curr_ = elem.pose.position
                 if not ((prev_.x == curr_.x) and (prev_.y == curr_.y)):
                     self.waypoint_list.append([curr_.x, curr_.y])
-                    # x.append(curr_.x)
-                    # y.append(curr_.y)
             '''end eliminating repeated points'''
 
             self._waypoints_queue.append(elem.pose)
 
         waypoint_np = np.array(self.waypoint_list).T
         self.waypoint_list = waypoint_np.tolist()
-        # print("x = {}".format(len(self.waypoint_list[0])))
-        # print("y = {}".format(len(self.waypoint_list[1])))
 
         try:
             self.csp = frenet_optimal_trajectory.generate_target_course(self.waypoint_list[0], self.waypoint_list[1])
@@ -410,14 +405,14 @@ class MyLocalPlanner(object):
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
         # if path:
-        if ob:
-            self.target_route_point.position.x = path.x[1]
-            print("target_route_point = {}, {}".format(path.x[1], path.y[1]))
-            self.target_route_point.position.y = path.y[1]
-        else:
-            self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)
-            self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y) 
-            print("else target route point = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))           
+        # if ob:
+        self.target_route_point.position.x = path.x[1]
+        print("target_route_point = {}, {}".format(path.x[1], path.y[1]))
+        self.target_route_point.position.y = path.y[1]
+        # else:
+        #     self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)
+        #     self.target_route_point.position.y = (path.y[1]+self._waypoint_buffer[0].position.y) 
+        #     print("else target route point = {}, {}".format(self.target_route_point.position.x, self.target_route_point.position.y))           
         target_point = PointStamped()
         target_point.header.frame_id = "map"
         target_point.point.x = self.target_route_point.position.x
@@ -425,16 +420,10 @@ class MyLocalPlanner(object):
         target_point.point.z = self.target_route_point.position.z
         self._target_point_publisher.publish(target_point)
 
-        # ''' 
-
-        
-        # print("target_speed = {}".format(target_speed))
-        # '''
         
         # move using PID controllers
         control = self._vehicle_controller.run_step(
             target_speed, current_speed, current_pose, self.target_route_point)
-
 
 
         # purge the queue of obsolete waypoints
@@ -453,8 +442,8 @@ class MyLocalPlanner(object):
 
         update_path = -1
         try:
-            dist_x = path.x[1] - current_pose.position.x 
-            dist_y = path.y[1] - current_pose.position.y
+            dist_x = target_point.point.x - current_pose.position.x 
+            dist_y = target_point.point.y - current_pose.position.y
             update_path = (math.sqrt(dist_x * dist_x + dist_y * dist_y) < min_distance)
         except:
             print("cannot make update sig")            
