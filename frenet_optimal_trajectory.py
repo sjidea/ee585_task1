@@ -199,17 +199,17 @@ def calc_global_paths(fplist, csp):
     return fplist
 
 
-# def check_collision(fp, ob):
-#     for i in range(len(ob[:, 0])):
-#         d = [((ix - ob[i, 0]) ** 2 + (iy - ob[i, 1]) ** 2)
-#              for (ix, iy) in zip(fp.x, fp.y)]
+def check_collision(fp, ob):
+    for i in range(len(ob[:, 0])):
+        d = [((ix - ob[i, 0]) ** 2 + (iy - ob[i, 1]) ** 2)
+             for (ix, iy) in zip(fp.x, fp.y)]
 
-#         collision = any([di <= ROBOT_RADIUS ** 2 for di in d])
+        collision = any([di <= ROBOT_RADIUS ** 2 for di in d])
 
-#         if collision:
-#             return False
+        if collision:
+            return False
 
-#     return True
+    return True
 
 
 def check_paths(fplist, ob):
@@ -268,10 +268,10 @@ def generate_target_course(x, y):
         csp = cubic_spline_planner.Spline2D(x, y)
     except:
         print("is frenet error?? cannot")
-    else:
-        print("not in here")
-    finally:
-        print("now please tell me error")
+    # else:
+    #     print("not in here")
+    # finally:
+    #     print("now please tell me error")
     # s = np.arange(0, csp.s[-1], 0.1)
 
     # rx, ry, ryaw, rk = [], [], [], []
