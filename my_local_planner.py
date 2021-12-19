@@ -319,7 +319,7 @@ class MyLocalPlanner(object):
         # print("y = {}".format(len(self.waypoint_list[1])))
 
         try:
-            self.csp = frenet_optimal_trajectory.generate_target_course(x, y)
+            self.csp = frenet_optimal_trajectory.generate_target_course(self.waypoint_list[0], self.waypoint_list[1])
         except:
             print('cannot make csp')
 
