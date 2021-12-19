@@ -429,7 +429,7 @@ class MyLocalPlanner(object):
         target_point.point.z = self.target_route_point.position.z
         self._target_point_publisher.publish(target_point)
 
-        if check_obstacle(current_pose.position, obs):
+        if self.check_obstacle(current_pose.position, obs):
             target_speed = 80
         else:
             target_speed = 50
