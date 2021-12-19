@@ -391,11 +391,12 @@ class MyLocalPlanner(object):
         obs = np.array(obs)
         # print("obstacle position {}", obs)
         
-        if self.get_obstacles_for_speedup(current_pose.position, 120) and not self.get_obstacles_for_speedup(current_pose.position, 100):
-            target_speed = 50
-        else:
-            target_speed = 30
+        # if self.get_obstacles_for_speedup(current_pose.position, 120) and not self.get_obstacles_for_speedup(current_pose.position, 100):
+        #     target_speed = 50
+        # else:
+        #     target_speed = 30
         # target_speed = 50
+        target_speed = 30
 
         try:
             path = frenet_optimal_trajectory.frenet_optimal_planning( \
@@ -419,7 +420,7 @@ class MyLocalPlanner(object):
         # ''' 
 
         
-        print("target_speed = {}".format(target_speed))
+        # print("target_speed = {}".format(target_speed))
         # '''
         
         # move using PID controllers

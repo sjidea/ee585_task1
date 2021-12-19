@@ -237,6 +237,7 @@ def check_paths(fplist, ob):
 
 def frenet_optimal_planning(csp, s0, c_speed, c_d, c_d_d, c_d_dd, ob, target_speed):
     try:
+        target_speed = target_speed / 3.6
         fplist = calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0, target_speed)
     except:
         print("line 1 of frenet optimal planning")
