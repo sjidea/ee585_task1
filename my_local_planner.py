@@ -163,7 +163,12 @@ class MyLocalPlanner(object):
                     y = ros_transform.position.y
                     z = ros_transform.position.z 
                     distance = math.sqrt((x-location.x)**2 + (y-location.y)**2)
-                    if distance < range:
+
+                    current_waypoint = self.get_waypoint(location)
+                    waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
+                    (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
+                                                                 - waypoint_xodr.transform.rotation.yaw * math.pi / 180.0)
+                    if distance < range and angle > -math.pi/2 and angle < math.pi/2
                         # print("obs distance: {}").format(distance)
                         ob = Obstacle()
                         ob.id = actor.id
@@ -175,13 +180,13 @@ class MyLocalPlanner(object):
                         ob.bbox = actor.bounding_box # in local frame
                         self._obstacles_active.append(ob)
 
-    def get_obstacles_for_speedup(self, location, range):
+    def get_obstacles_for_speedup(self, location, range): # 1 if is obstacle
         obstacles = []
         actor_list = self.world.get_actors()
         distance = []
         for actor in actor_list:
             if "role_name" in actor.attributes:
-                if actor.attributes["role_name"] == 'autopilot' or actor.attributes["role_name"] == "static":
+                if actor.attributes["role_name"] == 'autopilot':# or actor.attributes["role_name"] == "static":
                     carla_transform = actor.get_transform()
                     ros_transform = trans.carla_transform_to_ros_pose(carla_transform)
                     x = ros_transform.position.x
@@ -192,9 +197,9 @@ class MyLocalPlanner(object):
                     waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
                     (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
                                                                  - waypoint_xodr.transform.rotation.yaw * math.pi / 180.0)
-                    if (angle < -math.pi/2 ) or (angle > math.pi/2):
+                    if (angle < -math.pi/3 ) or (angle > math.pi/3):
                         distance.append(math.sqrt((x-location.x)**2 + (y-location.y)**2) < range)
-        return not any(distance )
+        return any(distance )
 
     def check_obstacle(self, point, obstacle):
         """
@@ -470,7 +475,7 @@ class MyLocalPlanner(object):
                 self.c_d_dd = path.d_dd[1]
                 self.c_speed = path.s_d[1]
         
-        if self._obstacles_active :
+        if self.get_obstacles_for_speedup(current_pose.position, 10.0):
             control.brake = 0.1
 
 
