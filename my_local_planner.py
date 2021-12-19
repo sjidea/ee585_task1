@@ -197,7 +197,7 @@ class MyLocalPlanner(object):
                     waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
                     (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
                                                                  - waypoint_xodr.transform.rotation.yaw * math.pi / 180.0)
-                    if (angle < -math.pi/3 ) or (angle > math.pi/3):
+                    if (angle > -math.pi/3 ) or (angle < math.pi/3):
                         distance.append(math.sqrt((x-location.x)**2 + (y-location.y)**2) < range)
         return any(distance )
 
