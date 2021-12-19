@@ -201,7 +201,7 @@ def calc_spline_course(x, y, ds=0.1):
 
 def main():  # pragma: Z
 
-    # plt.subplots(1)
+    plt.subplots(1)
     # plt.plot(x, y, "xb", label="input")
     # plt.plot(rx, ry, "-r", label="spline")
     # plt.grid(True)
