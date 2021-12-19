@@ -297,8 +297,8 @@ class MyLocalPlanner(object):
         self.target_route_point = None
         self._waypoint_buffer.clear()
         self._waypoints_queue.clear()
-        x=[]
-        y=[]
+        # x=[]
+        # y=[]
         for i, elem in enumerate(current_plan):
  
             '''to eliminate repeted points'''
@@ -307,8 +307,8 @@ class MyLocalPlanner(object):
                 curr_ = elem.pose.position
                 if not ((prev_.x == curr_.x) and (prev_.y == curr_.y)):
                     self.waypoint_list.append([curr_.x, curr_.y])
-                    x.append(curr_.x)
-                    y.append(curr_.y)
+                    # x.append(curr_.x)
+                    # y.append(curr_.y)
             '''end eliminating repeated points'''
 
             self._waypoints_queue.append(elem.pose)
@@ -341,7 +341,7 @@ class MyLocalPlanner(object):
             control = CarlaEgoVehicleControl()
             control.steer = 0.0
             control.throttle = 0.0
-            control.brake = 0.1
+            control.brake = 0.2
             control.hand_brake = False
             control.manual_gear_shift = False
 
