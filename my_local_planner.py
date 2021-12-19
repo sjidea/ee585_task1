@@ -402,7 +402,7 @@ class MyLocalPlanner(object):
         try:
             path = frenet_optimal_trajectory.frenet_optimal_planning( \
                             self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
-                            obs, target_speed)
+                            obs)
         except:
             print('cannot get frenet path')
         # print("path = {}".format(path))
@@ -453,24 +453,32 @@ class MyLocalPlanner(object):
         except:
             print("cannot make update sig")            
         # print("dist = {}, min dist = {}".format(math.sqrt(dist_x * dist_x + dist_y * dist_y), min_distance))
-        if path:
-            if update_path:
-                try:
-                    self.s0 = path.s[1]
-                    self.c_d = path.d[1]
-                    self.c_d_d = path.d_d[1]
-                    self.c_d_dd = path.d_dd[1]
-                    self.c_speed = path.s_d[1]
-                except:
-                    print('cannot update s0, c_d, c_d_d ...')
-        else:
-            if update_path:
+        # if path:
+        #     if update_path:
+        #         try:
+        #             self.s0 = path.s[1]
+        #             self.c_d = path.d[1]
+        #             self.c_d_d = path.d_d[1]
+        #             self.c_d_dd = path.d_dd[1]
+        #             self.c_speed = path.s_d[1]
+        #         except:
+        #             print('cannot update s0, c_d, c_d_d ...')
+        # else:
+        #     if update_path:
+        #         self.s0 = path.s[1]
+        #         self.c_d = path.d[1]
+        #         self.c_d_d = path.d_d[1]
+        #         self.c_d_dd = path.d_dd[1]
+        #         self.c_speed = path.s_d[1]
+        if update_path:
+            try:
                 self.s0 = path.s[1]
                 self.c_d = path.d[1]
                 self.c_d_d = path.d_d[1]
                 self.c_d_dd = path.d_dd[1]
                 self.c_speed = path.s_d[1]
-
+            except:
+                print('cannot update s0, c_d, c_d_d ...')
 
 
         return control, False

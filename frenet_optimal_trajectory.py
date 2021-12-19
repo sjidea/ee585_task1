@@ -39,14 +39,14 @@ MAX_ACCEL = 2.0  # maximum acceleration [m/ss]
 MAX_CURVATURE = 1.0  # maximum curvature [1/m]
 
 MAX_ROAD_WIDTH = 3.5  # maximum road width [m]
-D_ROAD_W = 0.5  # road width sampling length [m]
-DT = 0.1  # time tick [s]
+D_ROAD_W = 1.0  # road width sampling length [m]
+DT = 0.2  # time tick [s]
 MAX_T = 5.0  # max prediction time [m]
 MIN_T = 4.0  # min prediction time [m s]
-# TARGET_SPEED = 30.0 / 3.6  # target speed [m/s]
+TARGET_SPEED = 30.0 / 3.6  # target speed [m/s]
 D_T_S = 5.0 / 3.6  # target speed sampling length [m/s]
 N_S_SAMPLE = 3  # sampling number of target speed
-ROBOT_RADIUS = 2.1  # robot radius [m]
+ROBOT_RADIUS = 2.0  # robot radius [m]
 
 # cost weights
 K_J = 0.1
@@ -122,7 +122,7 @@ class FrenetPath:
         self.c = []
 
 
-def calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0, TARGET_SPEED):
+def calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0):
     frenet_paths = []
 
     # generate path to each offset goal
@@ -235,9 +235,9 @@ def check_paths(fplist, ob):
     return [fplist[i] for i in ok_ind]
 
 
-def frenet_optimal_planning(csp, s0, c_speed, c_d, c_d_d, c_d_dd, ob, target_speed):
+def frenet_optimal_planning(csp, s0, c_speed, c_d, c_d_d, c_d_dd, ob):
     try:
-        target_speed = target_speed / 3.6
+        # target_speed = target_speed / 3.6
         fplist = calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0, target_speed)
     except:
         print("line 1 of frenet optimal planning")
