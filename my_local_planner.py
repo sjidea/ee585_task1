@@ -391,10 +391,16 @@ class MyLocalPlanner(object):
         obs = np.array(obs)
         # print("obstacle position {}", obs)
         
+        # if self.get_obstacles_for_speedup(current_pose.position, 120) and not self.get_obstacles_for_speedup(current_pose.position, 70):
+        #     target_speed = 50
+        # else:
+        #     target_speed = 30
+        target_speed = 50
+
         try:
             path = frenet_optimal_trajectory.frenet_optimal_planning( \
                             self.csp, self.s0, self.c_speed, self.c_d, self.c_d_d, self.c_d_dd, \
-                            obs)
+                            obs, target_speed)
         except:
             print('cannot get frenet path')
         # print("path = {}".format(path))
@@ -411,11 +417,8 @@ class MyLocalPlanner(object):
         self._target_point_publisher.publish(target_point)
 
         # ''' 
-        # if self.get_obstacles_for_speedup(current_pose.position, 120) and not self.get_obstacles_for_speedup(current_pose.position, 70):
-        #     target_speed = 50
-        # else:
-        #     target_speed = 30
-        target_speed = 50
+
+        
         print("target_speed = {}".format(target_speed))
         # '''
         
