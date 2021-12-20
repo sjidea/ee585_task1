@@ -134,7 +134,7 @@ class MyLocalPlanner(object):
         actor_list = self.world.get_actors()
         for actor in actor_list:
             if "role_name" in actor.attributes:
-                if actor.attributes["role_name"] == 'static' or actor.attributes["role_name"] == "autopilot": #or actor.attributes["role_name"] == "static":
+                if actor.attributes["role_name"] == 'static' :
                     carla_transform = actor.get_transform()
                     ros_transform = trans.carla_transform_to_ros_pose(carla_transform)
                     x = ros_transform.position.x
@@ -180,7 +180,7 @@ class MyLocalPlanner(object):
                         ob.bbox = actor.bounding_box # in local frame
                         self._obstacles_active.append(ob)
 
-    def get_obstacles_for_speedup(self, location, range): # 1 if is obstacle
+    def get_obstacles_for_speed(self, location, range): # 1 if is obstacle
         obstacles = []
         actor_list = self.world.get_actors()
         distance = []
@@ -398,7 +398,7 @@ class MyLocalPlanner(object):
         obs = np.array(obs)
         # print("obstacle list = {}".format(obs))
         
-        # if self.get_obstacles_for_speedup(current_pose.position, 120) and not self.get_obstacles_for_speedup(current_pose.position, 100):
+        # if self.get_obstacles_for_speed(current_pose.position, 120) and not self.get_obstacles_for_speed(current_pose.position, 100):
         #     target_speed = 50
         # else:
         #     target_speed = 30
@@ -410,9 +410,8 @@ class MyLocalPlanner(object):
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
         if path:
-            if len(path.x) and not self.get_obstacles_for_speedup(current_pose.position, 40.0):
+            if len(path.x) and not self.get_obstacles_for_speed(current_pose.position, 40.0):
                 self.target_route_point.position.x = path.x[1]
-                print("target_route_point path= {}, {}".format(path.x[1], path.y[1]))
                 self.target_route_point.position.y = path.y[1]
         # elif len(path.x):
         #     self.target_route_point.position.x = (path.x[1]+self._waypoint_buffer[0].position.x)/2
@@ -438,8 +437,7 @@ class MyLocalPlanner(object):
         for ob in self._obstacles_active + self._obstacles:
             if path:
                 if self.check_obstacle(current_pose.position, ob):
-                    target_speed = 80
-            # elif 
+                    target_speed = 80 
             else:
                 target_speed = 27
 
@@ -475,9 +473,9 @@ class MyLocalPlanner(object):
                 self.c_d_dd = path.d_dd[1]
                 self.c_speed = path.s_d[1]
         
-        if self.get_obstacles_for_speedup(current_pose.position, 20.0):
+        if self.get_obstacles_for_speed(current_pose.position, 20.0):
             control.brake = 0.0
-        elif self.get_obstacles_for_speedup(current_pose.position, 40.0):
+        elif self.get_obstacles_for_speed(current_pose.position, 40.0):
             control.brake = 0.3
         
 
