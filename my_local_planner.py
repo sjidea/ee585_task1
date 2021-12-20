@@ -441,7 +441,7 @@ class MyLocalPlanner(object):
                     target_speed = 80
             # elif 
             else:
-                target_speed = 30
+                target_speed = 27
 
 
         # move using PID controllers
@@ -476,13 +476,10 @@ class MyLocalPlanner(object):
                 self.c_speed = path.s_d[1]
         
         if self.get_obstacles_for_speedup(current_pose.position, 20.0):
-            if path:
-                control.brake = 0.0
-            else:
-                control.brake = 1.0
+            control.brake = 0.0
         elif self.get_obstacles_for_speedup(current_pose.position, 40.0):
             control.brake = 0.3
-
+        
 
 
         return control, False
