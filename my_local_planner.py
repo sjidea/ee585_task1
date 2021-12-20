@@ -410,7 +410,7 @@ class MyLocalPlanner(object):
         # target waypoint        
         self.target_route_point = self._waypoint_buffer[0]
         if path:
-            if len(path.x) :
+            if len(path.x) and not self.get_obstacles_for_speedup(current_pose.position, 40.0)
                 self.target_route_point.position.x = path.x[1]
                 print("target_route_point path= {}, {}".format(path.x[1], path.y[1]))
                 self.target_route_point.position.y = path.y[1]
@@ -476,7 +476,7 @@ class MyLocalPlanner(object):
                 self.c_speed = path.s_d[1]
         
         if self.get_obstacles_for_speedup(current_pose.position, 40.0):
-            control.brake = 0.2
+            control.brake = 0.3
         
 
 
