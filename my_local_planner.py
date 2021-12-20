@@ -168,7 +168,7 @@ class MyLocalPlanner(object):
                     waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
                     (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
                                                                  - waypoint_xodr.transform.rotation.yaw)
-                    if distance < range and angle > -math.pi/2 and angle < math.pi/2 :
+                    if distance < range and angle < 90.0:
                         # print("obs distance: {}").format(distance)
                         ob = Obstacle()
                         ob.id = actor.id
@@ -192,14 +192,17 @@ class MyLocalPlanner(object):
                     x = ros_transform.position.x
                     y = ros_transform.position.y
                     z = ros_transform.position.z 
+                    obstacle_waypoint = self.get_waypoint(ros_transform.position)
+                    
 
                     current_waypoint = self.get_waypoint(location)
                     waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
                     (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
-                                                                 - waypoint_xodr.transform.rotation.yaw * math.pi / 180.0)
+                                                                 - waypoint_xodr.transform.rotation.yaw )
                     print("angle = {}".format(angle))
-                    if (angle > -math.pi/3 ) or (angle < math.pi/3):
+                    if angle < 60.0 and obstacle_waypoint.lane_id == current_waypoint.lane_id:
                         distance.append(math.sqrt((x-location.x)**2 + (y-location.y)**2) < range)
+                    
         return any(distance )
 
     def check_obstacle(self, point, obstacle):
@@ -472,8 +475,9 @@ class MyLocalPlanner(object):
                 self.c_d_dd = path.d_dd[1]
                 self.c_speed = path.s_d[1]
         
-        if self.get_obstacles_for_speedup(current_pose.position, 20.0):
-            control.brake = 0.1
+        if self.get_obstacles_for_speedup(current_pose.position, 40.0):
+            control.brake = 0.2
+        
 
 
         return control, False
