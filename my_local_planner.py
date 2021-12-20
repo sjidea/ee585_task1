@@ -167,7 +167,7 @@ class MyLocalPlanner(object):
                     current_waypoint = self.get_waypoint(location)
                     waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
                     (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
-                                                                 - waypoint_xodr.transform.rotation.yaw0)
+                                                                 - waypoint_xodr.transform.rotation.yaw)
                     if distance < range and angle > -math.pi/2 and angle < math.pi/2 :
                         # print("obs distance: {}").format(distance)
                         ob = Obstacle()
