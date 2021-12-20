@@ -475,7 +475,9 @@ class MyLocalPlanner(object):
                 self.c_d_dd = path.d_dd[1]
                 self.c_speed = path.s_d[1]
         
-        if self.get_obstacles_for_speedup(current_pose.position, 40.0):
+        if self.get_obstacles_for_speedup(current_pose.position, 20.0):
+            control.brake = 0.0
+        elif self.get_obstacles_for_speedup(current_pose.position, 40.0):
             control.brake = 0.3
         
 
