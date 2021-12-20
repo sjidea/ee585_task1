@@ -441,7 +441,9 @@ class MyLocalPlanner(object):
                     target_speed = 80
             # elif 
             else:
-                target_speed = 26
+                if self.check_obstacle(current_pose.position, ob):
+                    contro.brake = 1.0
+                target_speed = 30
 
 
         # move using PID controllers
