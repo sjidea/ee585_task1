@@ -167,7 +167,7 @@ class MyLocalPlanner(object):
                     current_waypoint = self.get_waypoint(location)
                     waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
                     (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
-                                                                 - waypoint_xodr.transform.rotation.yaw * math.pi / 180.0)
+                                                                 - waypoint_xodr.transform.rotation.yaw0)
                     if distance < range and angle > -math.pi/2 and angle < math.pi/2 :
                         # print("obs distance: {}").format(distance)
                         ob = Obstacle()
@@ -339,19 +339,14 @@ class MyLocalPlanner(object):
         waypoint_np = np.array(self.waypoint_list).T
         self.waypoint_list = waypoint_np.tolist()
 
-        try:
-            self.csp = frenet_optimal_trajectory.generate_target_course(self.waypoint_list[0], self.waypoint_list[1])
-        except:
-            print('cannot make csp')
+        self.csp = frenet_optimal_trajectory.generate_target_course(self.waypoint_list[0], self.waypoint_list[1])
 
-        try:
-            self.c_speed = 10.0 / 3.6
-            self.c_d = 2.0
-            self.c_d_d = 0.0
-            self.c_d_dd = 0.0
-            self.s0 = 0.0
-        except:
-            print('cannot assign initial state values')
+        self.c_speed = 10.0 / 3.6
+        self.c_d = 2.0
+        self.c_d_d = 0.0
+        self.c_d_dd = 0.0
+        self.s0 = 0.0
+
 
     def run_step(self, target_speed, current_speed, current_pose): # 
         """
@@ -444,8 +439,7 @@ class MyLocalPlanner(object):
             # elif 
             else:
                 target_speed = 20
-            
-        
+
 
         # move using PID controllers
         control = self._vehicle_controller.run_step(
