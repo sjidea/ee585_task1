@@ -441,7 +441,7 @@ class MyLocalPlanner(object):
                     target_speed = 80
             # elif 
             else:
-                target_speed = 30
+                target_speed = 25
 
 
         # move using PID controllers
