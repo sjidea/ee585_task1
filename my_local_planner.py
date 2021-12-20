@@ -193,15 +193,15 @@ class MyLocalPlanner(object):
                     y = ros_transform.position.y
                     z = ros_transform.position.z 
                     obstacle_waypoint = self.get_waypoint(ros_transform.position)
-                    
 
                     current_waypoint = self.get_waypoint(location)
                     waypoint_xodr = self.map.get_waypoint_xodr(current_waypoint.road_id, current_waypoint.lane_id, current_waypoint.s)
                     (_ , angle) = compute_magnitude_angle(ros_transform.position, location, \
                                                                  - waypoint_xodr.transform.rotation.yaw )
                     print("angle = {}".format(angle))
-                    if angle < 60.0 and obstacle_waypoint.lane_id == current_waypoint.lane_id:
-                        distance.append(math.sqrt((x-location.x)**2 + (y-location.y)**2) < range)
+                    if angle < 60.0 and obstacle_waypoint:
+                        if obstacle_waypoint.lane_id == current_waypoint.lane_id:
+                            distance.append(math.sqrt((x-location.x)**2 + (y-location.y)**2) < range)
                     
         return any(distance )
 
